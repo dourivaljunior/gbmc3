@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Portal Garage Band Mário Cravo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('fundo.jpg'); /* Substitua pelo nome da sua imagem de fundo */
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* Overlay escuro para contraste do texto */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.65);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: rgba(30, 30, 40, 0.85);
+            border-radius: 20px;
+            backdrop-filter: blur(2px);
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #ffd966;
+            text-shadow: 2px 2px 4px #000;
+            letter-spacing: 2px;
+        }
+
+        .sub {
+            text-align: center;
+            margin-bottom: 25px;
+            font-style: italic;
+            color: #ddd;
+        }
+
+        /* Caixa de busca */
+        .search-box {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .search-box input {
+            width: 80%;
+            max-width: 500px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            outline: none;
+            background-color: #f0f0f0;
+            color: #1e1e2a;
+            text-align: center;
+        }
+        .search-box input::placeholder {
+            color: #777;
+        }
+
+        /* Botão Voltar (só aparece na visualização da letra) */
+        .back-btn {
+            background-color: #ff7b2c;
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            font-size: 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-weight: bold;
+            transition: 0.2s;
+            display: inline-block;
+        }
+        .back-btn:hover {
+            background-color: #e05a00;
+            transform: scale(1.02);
+        }
+
+        /* Layout três colunas (só na listagem) */
+        .three-columns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .col {
+            flex: 1;
+            min-width: 200px;
+            background: rgba(0,0,0,0.6);
+            border-radius: 16px;
+            padding: 15px;
+            backdrop-filter: blur(4px);
+        }
+        .col h3 {
+            text-align: center;
+            border-bottom: 2px solid #ffaa44;
+            display: inline-block;
+            width: 100%;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            color: #ffcc77;
+        }
+
+        /* Lista de músicas */
+        .music-list {
+            list-style: none;
+            max-height: 65vh;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        .music-list li {
+            margin-bottom: 12px;
+            padding: 8px;
+            background: rgba(255,255,240,0.1);
+            border-radius: 12px;
+            transition: 0.1s;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .music-list li:hover {
+            background: rgba(255,200,100,0.3);
+        }
+        .song-name {
+            font-weight: bold;
+            color: #ffdd99;
+            flex: 2;
+            cursor: pointer;
+            word-break: break-word;
+        }
+        .song-name small {
+            font-weight: normal;
+            font-size: 0.75rem;
+            color: #ccc;
+        }
+        .audio-controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            flex: 3;
+        }
+        audio {
+            max-width: 140px;
+            height: 35px;
+        }
+        .btn-lyrics {
+            background-color: #3a6ea5;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        .btn-lyrics:hover {
+            background-color: #2c5480;
+        }
+
+        /* Painel de visualização da letra (sobrepõe as colunas) */
+        .lyrics-panel {
+            background: rgba(0,0,0,0.9);
+            padding: 20px;
+            border-radius: 24px;
+            margin-top: 10px;
+            max-height: 70vh;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            color: #f5f5dc;
+            border-left: 6px solid #ffaa44;
+        }
+        .hidden {
+            display: none;
+        }
+
+        /* Rodapé */
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+
+        /* Scroll personalizado */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #222;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ffaa44;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 800px) {
+            .three-columns {
+                flex-direction: column;
+            }
+            .col h3 {
+                font-size: 1.2rem;
+            }
+            audio {
+                max-width: 110px;
+            }
+            .song-name {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <h1>🎸 Portal Garage Band Mário Cravo 🥁</h1>
+    <div class="sub">Estúdio virtual - Toque, cante e sinta a música</div>
+
+    <!-- Busca global (sempre visível) -->
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔍 Buscar música, artista... exemplo: 'Gita' ou 'Raul'" autocomplete="off">
+    </div>
+
+    <!-- Área principal: lista de músicas (três colunas) ou detalhe da letra -->
+    <div id="mainView">
+        <!-- Inicialmente mostra as três colunas com músicas -->
+    </div>
+
+    <!-- Botão voltar (aparece apenas quando letra aberta) -->
+    <div id="backButtonArea" style="text-align: left;"></div>
+
+    <footer>
+        🎵 Músicas originais + backing tracks | Clique no nome da música para ver a letra | Arquivos: .txt, .mp3, bt.mp3
+    </footer>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // LISTA DE MÚSICAS (adicione quantas quiser, seguindo esse padrão)
+    // Para cada música: { nome, artista, mp3, backingTrack, txt }
+    // IMPORTANTE: os arquivos devem estar no mesmo diretório que o HTML
+    // Exemplo de arquivos: "gita-raul-seixas.txt", "gita.mp3", "gitabt.mp3"
+    // --------------------------------------------------------------
+    const musicDatabase = [
+        {
+            nome: "Gita",
+            artista: "Raul Seixas",
+            mp3: "gita.mp3",
+            backingTrack: "gitabt.mp3",
+            txt: "gita-raul-seixas.txt"
+        }
+        // ==========================================================
+        // ADICIONE AQUI AS OUTRAS MÚSICAS (mais de 100) seguindo o modelo:
+        // {
+        //    nome: "Título",
+        //    artista: "Artista",
+        //    mp3: "musica.mp3",
+        //    backingTrack: "musicabt.mp3",
+        //    txt: "musica-artista.txt"
+        // },
+        // ==========================================================
+        // Exemplo extra:
+        // {
+        //    nome: "Yesterday",
+        //    artista: "Beatles",
+        //    mp3: "yesterday.mp3",
+        //    backingTrack: "yesterdaybt.mp3",
+        //    txt: "yesterday-beatles.txt"
+        // },
+        // {
+        //    nome: "Alucinação",
+        //    artista: "Belchior",
+        //    mp3: "alucinacao.mp3",
+        //    backingTrack: "alucinacaobt.mp3",
+        //    txt: "alucinacao-belchior.txt"
+        // }
+    ];
+
+    // Estado da aplicação
+    let currentView = "list"; // "list" ou "lyrics"
+    let currentLyricsContent = "";
+    let currentSongName = "";
+
+    // Elementos DOM
+    const mainViewDiv = document.getElementById("mainView");
+    const backButtonArea = document.getElementById("backButtonArea");
+    const searchInput = document.getElementById("searchInput");
+
+    // Função para ordenar músicas por nome (alfabética)
+    function sortSongs(songs) {
+        return [...songs].sort((a, b) => a.nome.localeCompare(b.nome));
+    }
+
+    // Função para filtrar músicas baseado na busca (nome ou artista)
+    function filterSongs(songs, query) {
+        if (!query.trim()) return songs;
+        const lowerQuery = query.toLowerCase();
+        return songs.filter(song => 
+            song.nome.toLowerCase().includes(lowerQuery) || 
+            song.artista.toLowerCase().includes(lowerQuery)
+        );
+    }
+
+    // Carrega o conteúdo do arquivo .txt via fetch (já que está no GitHub Pages ou servidor local)
+    async function loadLyrics(txtFile, songName) {
+        try {
+            const response = await fetch(txtFile);
+            if (!response.ok) {
+                throw new Error(`Arquivo ${txtFile} não encontrado. Verifique se o .txt está na mesma pasta.`);
+            }
+            const text = await response.text();
+            currentLyricsContent = text;
+            currentSongName = songName;
+            showLyricsPanel();
+        } catch (error) {
+            console.error(error);
+            currentLyricsContent = `❌ Erro ao carregar a letra: ${error.message}\n\nCertifique-se de que o arquivo "${txtFile}" existe no mesmo diretório.`;
+            currentSongName = songName;
+            showLyricsPanel();
+        }
+    }
+
+    // Exibe o painel com a letra e esconde a lista das três colunas
+    function showLyricsPanel() {
+        currentView = "lyrics";
+        renderMainView();
+        // Exibe botão voltar
+        backButtonArea.innerHTML = `<button class="back-btn" id="voltarBtnLista">🔙 Voltar para lista de músicas</button>`;
+        const voltarBtn = document.getElementById("voltarBtnLista");
+        if (voltarBtn) {
+            voltarBtn.addEventListener("click", () => {
+                currentView = "list";
+                renderMainView();
+                backButtonArea.innerHTML = ""; // esconde botão voltar
+                // re-renderiza mantendo busca
+            });
+        }
+    }
+
+    // Função que gera as três colunas (1: nome+autor, 2: música original, 3: backing track)
+    function renderThreeColumns(songsToRender) {
+        if (songsToRender.length === 0) {
+            return `<div style="text-align:center; padding:40px; background: rgba(0,0,0,0.6); border-radius: 30px;">🎵 Nenhuma música encontrada. Tente outra busca.</div>`;
+        }
+
+        // constroi as três colunas
+        let col1Html = `<div class="col"><h3>🎤 Música & Autor</h3><ul class="music-list">`;
+        let col2Html = `<div class="col"><h3>🎧 Original</h3><ul class="music-list">`;
+        let col3Html = `<div class="col"><h3>🎹 Backing Track</h3><ul class="music-list">`;
+
+        songsToRender.forEach((song, idx) => {
+            const displayName = `${song.nome} - ${song.artista}`;
+            // Coluna 1: nome da música + botão letra
+            col1Html += `
+                <li>
+                    <span class="song-name" data-song-index="${idx}" data-txt="${song.txt}" data-nome="${song.nome}" data-artista="${song.artista}">
+                        ${displayName} <small>(📄 clique p/ letra)</small>
+                    </span>
+                </li>`;
+
+            // Coluna 2: player MP3 original
+            col2Html += `
+                <li>
+                    <div class="audio-controls">
+                        <audio controls preload="metadata">
+                            <source src="${song.mp3}" type="audio/mpeg">
+                            Seu navegador não suporta áudio.
+                        </audio>
+                    </div>
+                </li>`;
+
+            // Coluna 3: player backing track
+            col3Html += `
+                <li>
+                    <div class="audio-controls">
+                        <audio controls preload="metadata">
+                            <source src="${song.backingTrack}" type="audio/mpeg">
+                            Seu navegador não suporta áudio.
+                        </audio>
+                    </div>
+                </li>`;
+        });
+
+        col1Html += `</ul></div>`;
+        col2Html += `</ul></div>`;
+        col3Html += `</ul></div>`;
+
+        return `<div class="three-columns">${col1Html}${col2Html}${col3Html}</div>`;
+    }
+
+    // Adicionar eventos de clique nos nomes das músicas (delegação)
+    function attachSongClickEvents() {
+        const songItems = document.querySelectorAll('.song-name');
+        songItems.forEach(item => {
+            // Evita duplicar eventos
+            item.removeEventListener('click', songClickHandler);
+            item.addEventListener('click', songClickHandler);
+        });
+    }
+
+    function songClickHandler(event) {
+        const target = event.currentTarget;
+        const txtFile = target.getAttribute('data-txt');
+        const nomeMusica = target.getAttribute('data-nome');
+        const artistaMusica = target.getAttribute('data-artista');
+        if (txtFile) {
+            loadLyrics(txtFile, `${nomeMusica} - ${artistaMusica}`);
+        } else {
+            alert("Letra não configurada para esta música. Verifique o atributo data-txt.");
+        }
+    }
+
+    // Renderização principal (decisão entre listagem e letra)
+    async function renderMainView() {
+        if (currentView === "lyrics") {
+            // Exibe a letra carregada
+            mainViewDiv.innerHTML = `
+                <div class="lyrics-panel">
+                    <h3 style="color:#ffbb55;">📖 Letra: ${currentSongName}</h3>
+                    <hr style="margin:10px 0; border-color:#ffaa44;">
+                    <pre style="font-family: inherit; white-space: pre-wrap;">${escapeHtml(currentLyricsContent)}</pre>
+                </div>
+            `;
+            return;
+        }
+
+        // Modo lista: buscar atual, filtrar e ordenar
+        const searchTerm = searchInput.value;
+        let filtered = filterSongs(musicDatabase, searchTerm);
+        filtered = sortSongs(filtered);
+        
+        const columnsHtml = renderThreeColumns(filtered);
+        mainViewDiv.innerHTML = columnsHtml;
+        attachSongClickEvents();
+    }
+
+    // Utilitário para evitar XSS básico
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // Evento de busca ao digitar
+    function onSearchInput() {
+        if (currentView === "list") {
+            renderMainView();
+        } else {
+            // se estiver na letra, não altera a lista até voltar - mas opcional: podemos resetar a view? melhor manter a letra.
+            // O usuário pode voltar manualmente para ver a busca.
+        }
+    }
+
+    // Inicialização: garante que ao carregar exiba a lista (com as músicas atuais)
+    function init() {
+        renderMainView();
+        searchInput.addEventListener("input", onSearchInput);
+        // Se houver necessidade de redesenhar a lista após voltar da letra, já está sendo feito no voltar.
+        // Adicionalmente, toda vez que voltar de letras, re-renderiza lista já com o termo da busca.
+    }
+
+    // Caso o banco de dados esteja vazio, exibe uma mensagem amigável informando como adicionar.
+    if (musicDatabase.length === 0) {
+        musicDatabase.push({
+            nome: "Exemplo",
+            artista: "Adicione suas músicas",
+            mp3: "exemplo.mp3",
+            backingTrack: "exemplobt.mp3",
+            txt: "exemplo.txt"
+        });
+        console.warn("⚠️ Nenhuma música encontrada no musicDatabase. Adicione suas músicas seguindo o modelo!");
+    }
+
+    init();
+</script>
+</body>
+</html>
