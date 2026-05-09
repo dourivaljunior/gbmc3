@@ -17,7 +17,7 @@ const musicData = [
     },
     // Adicione mais músicas aqui seguindo o modelo
     {
-        id: 2,
+        id: 3,
         nome: "Ana Júlia",
         artista: "Los Hermanos",
         mp3: "ana_julia.mp3",
@@ -25,11 +25,11 @@ const musicData = [
         txt: "ana-julia-los-hermanos.txt"
     },
     {
-        id: 2,
-        nome: "Tempos Modernos",
-        artista: "Lulu Santos",
-        mp3: "tempos-modernos.mp3",
-        backingTrack: "flores-bt.mp3",
-        txt: "tempos-modernos-lulu-santos.txt"
+        id: 4,
+        nome: "Tempo Perdido",
+        artista: "Legião Urbana",
+        mp3: "tempo-perdido.mp3",
+        backingTrack: "tempo-perdido-bt.mp3",
+        txt: "tempo-perdido-legião-urbana.txt"
     },
 ];
