@@ -19,9 +19,9 @@ const musicData = [
         id: 3,
         nome: "Ana Júlia",
         artista: "Los Hermanos",
-        mp3: "ana-julia-los-hermanos.mp3",
-        backingTrack: "ana-julia-los-hermanos-bt.mp3",
-        txt: "ana-julia-los-hermanos.txt"
+        mp3: "ana-júlia-los-hermanos.mp3",
+        backingTrack: "ana-júlia-los-hermanos-bt.mp3",
+        txt: "ana-júlia-los-hermanos.txt"
     },
     {
         id: 4,
