@@ -1,1 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Portal Garage Band | Fotos & Vídeos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+<div class="navbar">
+    <div class="nav-container">
+        <div class="logo">🎸 Garage Band Mário Cravo</div>
+        <div class="nav-links">
+            <a href="index.html">🎵 Músicas</a>
+            <a href="biblioteca.html">📚 Biblioteca</a>
+            <a href="ensaios.html" class="active">📹 Fotos & Vídeos</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <a href="index.html" class="back-btn">← Voltar para página principal</a>
+    
+    <div class="page-header">
+        <h1>📹 Fotos e Vídeos dos Ensaios</h1>
+        <p class="subtitle">Registros da Garage Band Mário Cravo</p>
+    </div>
+
+    <!-- Seção de Vídeos em Destaque -->
+    <div class="category">
+        <h2>🎥 Vídeos Recentes</h2>
+        <div class="video-grid">
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID_1" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <h3>Ensaio - Gita (Raul Seixas)</h3>
+                <p>Ensaio completo da Garage Band - 15/03/2025</p>
+            </div>
+            
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID_2" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <h3>Ensaio - Yesterday (Beatles)</h3>
+                <p>Arranjo especial com backing track</p>
+            </div>
+            
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <video controls>
+                        <source src="videos/ensaio-clipe1.mp4" type="video/mp4">
+                        Seu navegador não suporta vídeo.
+                    </video>
+                </div>
+                <h3>Making Of - Preparação para o show</h3>
+                <p>Backstage dos ensaios - 01/04/2025</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Galeria de Fotos -->
+    <div class="category">
+        <h2>📸 Galeria de Fotos</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item" onclick="openModal('fotos/ensaio1.jpg')">
+                <img src="fotos/ensaio1.jpg" alt="Ensaio 1">
+                <div class="overlay">📸 Ensaio - 15/03/2025</div>
+            </div>
+            
+            <div class="gallery-item" onclick="openModal('fotos/ensaio2.jpg')">
+                <img src="fotos/ensaio2.jpg" alt="Ensaio 2">
+                <div class="overlay">🎸 Mário Cravo na guitarra</div>
+            </div>
+            
+            <div class="gallery-item" onclick="openModal('fotos/ensaio3.jpg')">
+                <img src="fotos/ensaio3.jpg" alt="Ensaio 3">
+                <div class="overlay">🥁 Seção de bateria</div>
+            </div>
+            
+            <div class="gallery-item" onclick="openModal('fotos/ensaio4.jpg')">
+                <img src="fotos/ensaio4.jpg" alt="Ensaio 4">
+                <div class="overlay">🎤 Vocalistas em ação</div>
+            </div>
+            
+            <div class="gallery-item" onclick="openModal('fotos/ensaio5.jpg')">
+                <img src="fotos/ensaio5.jpg" alt="Ensaio 5">
+                <div class="overlay">🎹 Teclado e arranjos</div>
+            </div>
+            
+            <div class="gallery-item" onclick="openModal('fotos/ensaio6.jpg')">
+                <img src="fotos/ensaio6.jpg" alt="Ensaio 6">
+                <div class="overlay">🎸 Banda completa</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para ampliar fotos -->
+<div id="imageModal" class="modal" onclick="closeModal()">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage">
+</div>
+
+<script>
+    function openModal(imgSrc) {
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        modal.style.display = "flex";
+        modalImg.src = imgSrc;
+    }
+    
+    function closeModal() {
+        document.getElementById('imageModal').style.display = "none";
+    }
+    
+    document.addEventListener('keydown', function(e) {
+        if (e.key === "Escape") closeModal();
+    });
+</script>
+</body>
+</html>
