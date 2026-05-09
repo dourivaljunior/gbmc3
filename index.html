@@ -54,7 +54,6 @@
             margin-bottom: 40px;
         }
 
-        /* Menu de abas - simples e direto */
         .tabs {
             display: flex;
             justify-content: center;
@@ -85,26 +84,18 @@
 
         .search-box input {
             width: 100%;
-            padding: 16px 20px 16px 48px;
+            padding: 16px 20px;
             font-size: 1rem;
             border: 2px solid rgba(255,255,255,0.2);
             border-radius: 50px;
             background: rgba(255,255,255,0.95);
             color: #1a1a2e;
             outline: none;
+            text-align: center;
         }
 
         .search-box input:focus {
             border-color: #ffb347;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.1rem;
-            pointer-events: none;
         }
 
         .music-card {
@@ -185,13 +176,6 @@
             color: rgba(255,255,255,0.7);
         }
 
-        .empty-message {
-            text-align: center;
-            padding: 40px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 32px;
-        }
-
         @media (max-width: 700px) {
             .music-info {
                 flex-direction: column;
@@ -222,8 +206,7 @@
     </div>
 
     <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="Digite música ou artista..." autocomplete="off">
+        <input type="text" id="searchInput" placeholder="" autocomplete="off">
     </div>
 
     <div id="resultsContent"></div>
@@ -261,12 +244,6 @@
         render();
     }
 
-    function backToList() {
-        currentView = "list";
-        currentSong = null;
-        render();
-    }
-
     function renderDetail() {
         if (!currentSong) return;
         resultsDiv.innerHTML = `
@@ -300,16 +277,16 @@
     function renderList() {
         const term = searchInput.value;
         if (!term.trim()) {
-            resultsDiv.innerHTML = '<div class="empty-message">🔍 Digite uma música ou artista</div>';
+            resultsDiv.innerHTML = '';
             return;
         }
         let filtered = filterSongs(musicDatabase, term);
         if (filtered.length === 0) {
-            resultsDiv.innerHTML = `<div class="empty-message">😕 Nenhuma música encontrada para "${escapeHtml(term)}"</div>`;
+            resultsDiv.innerHTML = `<div style="text-align:center; padding:40px; background:rgba(255,255,255,0.05); border-radius:32px;">😕 Nenhuma música encontrada para "${escapeHtml(term)}"</div>`;
             return;
         }
 
-        let html = `<div class="results-info">✨ ${filtered.length} música(s) encontrada(s)</div>`;
+        let html = `<div class="results-info">✨ ${filtered.length} música(s)</div>`;
         filtered.forEach(song => {
             html += `
                 <div class="music-card">
@@ -353,7 +330,7 @@
             musicDatabase = musicData;
             render();
         } else {
-            resultsDiv.innerHTML = '<div class="empty-message">⚠️ Erro ao carregar playlist.</div>';
+            resultsDiv.innerHTML = '<div style="text-align:center; padding:40px;">⚠️ Erro ao carregar playlist.</div>';
         }
     }
 
