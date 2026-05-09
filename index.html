@@ -45,7 +45,6 @@
             flex-direction: column;
         }
 
-        /* Header só com o título */
         .header {
             text-align: center;
             margin-bottom: 50px;
@@ -62,7 +61,6 @@
             margin-bottom: 8px;
         }
 
-        /* Caixa de busca centralizada */
         .search-container {
             max-width: 550px;
             margin: 0 auto 40px auto;
@@ -107,7 +105,6 @@
             font-weight: 400;
         }
 
-        /* Resultados */
         .results-container {
             margin-top: 20px;
             animation: fadeIn 0.3s ease;
@@ -146,7 +143,6 @@
             border-color: rgba(255,180,71,0.4);
         }
 
-        /* Área do nome da música + link Letra */
         .music-info-left {
             display: flex;
             align-items: baseline;
@@ -225,20 +221,7 @@
             width: 130px;
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 32px;
-            backdrop-filter: blur(8px);
-        }
-
-        .empty-state p {
-            color: rgba(255,255,255,0.5);
-            font-size: 0.95rem;
-        }
-
-        /* PÁGINA DE DETALHE - BOX GRANDE */
+        /* PÁGINA DE DETALHE */
         .detail-view {
             width: 100%;
             max-width: 1400px;
@@ -491,12 +474,9 @@
     function renderListView() {
         const term = searchInputElem.value;
         
+        // Se não tem termo de busca, não mostra NADA (sem box, sem frase)
         if (!term.trim()) {
-            resultsDiv.innerHTML = `
-                <div class="empty-state">
-                    <p>🎵 Digite o nome de uma música ou artista no campo acima</p>
-                </div>
-            `;
+            resultsDiv.innerHTML = '';
             return;
         }
         
@@ -505,7 +485,7 @@
 
         if (filtered.length === 0) {
             resultsDiv.innerHTML = `
-                <div class="empty-state">
+                <div style="text-align:center; padding:40px; background:rgba(255,255,255,0.05); border-radius:32px;">
                     <p>😕 Nenhuma música encontrada para "${escapeHtml(term)}"</p>
                 </div>
             `;
@@ -553,7 +533,6 @@
         html += `</div></div>`;
         resultsDiv.innerHTML = html;
 
-        // Clique no nome da música
         document.querySelectorAll('.music-title').forEach(title => {
             title.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -595,7 +574,7 @@
             });
             render();
         } else {
-            resultsDiv.innerHTML = `<div class="empty-state"><p>⚠️ Erro ao carregar playlist. Verifique o arquivo musicas.js</p></div>`;
+            resultsDiv.innerHTML = `<div style="text-align:center; padding:40px;"><p>⚠️ Erro ao carregar playlist. Verifique o arquivo musicas.js</p></div>`;
         }
     }
 
