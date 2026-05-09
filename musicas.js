@@ -9,11 +9,27 @@ const musicData = [
     },
     {
         id: 2,
-        nome: "Yesterday",
-        artista: "Beatles",
-        mp3: "yesterday.mp3",
-        backingTrack: "yesterdaybt.mp3",
-        txt: "yesterday-beatles.txt"
-    }
+        nome: "Flores",
+        artista: "Titãs",
+        mp3: "flores.mp3",
+        backingTrack: "flores-bt.mp3",
+        txt: "flores-titãs.txt"
+    },
     // Adicione mais músicas aqui seguindo o modelo
+    {
+        id: 2,
+        nome: "Ana Júlia",
+        artista: "Los Hermanos",
+        mp3: "ana_julia.mp3",
+        backingTrack: "ana_julia-bt.mp3",
+        txt: "ana-julia-los-hermanos.txt"
+    },
+    {
+        id: 2,
+        nome: "Tempos Modernos",
+        artista: "Lulu Santos",
+        mp3: "tempos-modernos.mp3",
+        backingTrack: "flores-bt.mp3",
+        txt: "tempos-modernos-lulu-santos.txt"
+    },
 ];
