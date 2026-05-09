@@ -32,4 +32,12 @@ const musicData = [
         backingTrack: "tempo-perdido-legião-urbana-bt.mp3",
         txt: "tempo-perdido-legião-urbana.txt"
     },
+    {
+        id: 5,
+        nome: "Lanterna dos Afogados",
+        artista: "Paralamas do Sucesso",
+        mp3: "lanterna-dos-afogados-paralamas-do-sucesso.mp3",
+        backingTrack: "lanterna-dos-afogados-paralamas-do-sucesso.mp3",
+        txt: "lanterna-dos-afogados-paralamas-do-sucesso.txt"
+    },
 ];
