@@ -39,12 +39,13 @@
             z-index: 1;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 24px;
+            padding: 50px 24px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
+        /* Header só com o título */
         .header {
             text-align: center;
             margin-bottom: 50px;
@@ -58,17 +59,12 @@
             background-clip: text;
             color: transparent;
             letter-spacing: -0.5px;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
-        .sub {
-            font-size: 1rem;
-            color: rgba(255,255,255,0.8);
-            font-weight: 400;
-        }
-
+        /* Caixa de busca centralizada */
         .search-container {
-            max-width: 600px;
+            max-width: 550px;
             margin: 0 auto 40px auto;
             width: 100%;
         }
@@ -111,6 +107,7 @@
             font-weight: 400;
         }
 
+        /* Resultados */
         .results-container {
             margin-top: 20px;
             animation: fadeIn 0.3s ease;
@@ -149,10 +146,17 @@
             border-color: rgba(255,180,71,0.4);
         }
 
-        /* Título da música clicável */
-        .music-title {
+        /* Área do nome da música + link Letra */
+        .music-info-left {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 12px;
             flex: 2;
-            min-width: 150px;
+            min-width: 180px;
+        }
+
+        .music-title {
             cursor: pointer;
             transition: all 0.2s;
             border-radius: 12px;
@@ -177,6 +181,16 @@
             color: rgba(255,255,255,0.6);
         }
 
+        .link-lyrics {
+            font-size: 0.7rem;
+            color: #ffb347;
+            background: rgba(255,180,71,0.15);
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
         .music-info {
             display: flex;
             justify-content: space-between;
@@ -187,15 +201,28 @@
 
         .music-controls {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             flex-wrap: wrap;
             align-items: center;
+        }
+
+        .player-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .player-label span {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.6);
+            font-weight: 500;
         }
 
         audio {
             height: 34px;
             border-radius: 40px;
-            max-width: 140px;
+            width: 130px;
         }
 
         .empty-state {
@@ -211,15 +238,7 @@
             font-size: 0.95rem;
         }
 
-        .empty-state .hint {
-            font-size: 0.8rem;
-            margin-top: 12px;
-            color: rgba(255,255,255,0.35);
-        }
-
-        /* ============================================
-           PÁGINA DE DETALHE - BOX GRANDE (QUASE TELA INTEIRA)
-        ============================================ */
+        /* PÁGINA DE DETALHE - BOX GRANDE */
         .detail-view {
             width: 100%;
             max-width: 1400px;
@@ -247,7 +266,6 @@
             transform: translateX(-4px);
         }
 
-        /* Container principal do detalhe - OCUPA QUASE A PÁGINA INTEIRA */
         .detail-container {
             display: flex;
             flex-wrap: wrap;
@@ -260,7 +278,6 @@
             min-height: 70vh;
         }
 
-        /* Área da letra - EXPANDIDA */
         .lyrics-section {
             flex: 3;
             min-width: 320px;
@@ -290,7 +307,6 @@
             border-radius: 20px;
         }
 
-        /* Área dos players */
         .players-section {
             flex: 1.2;
             min-width: 280px;
@@ -361,7 +377,7 @@
             }
             
             audio {
-                max-width: 130px;
+                width: 120px;
             }
             
             .detail-container {
@@ -383,13 +399,12 @@
 <div class="container" id="app">
     <div class="header">
         <h1>🎸 Portal Garage Band<br>Mário Cravo</h1>
-        <div class="sub">Digite uma música ou artista para começar</div>
     </div>
 
     <div class="search-container">
         <div class="search-box">
             <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" placeholder="Ex: Gita, Raul Seixas, Yesterday..." autocomplete="off">
+            <input type="text" id="searchInput" placeholder="Digite uma música ou artista para começar" autocomplete="off">
         </div>
     </div>
 
@@ -479,8 +494,7 @@
         if (!term.trim()) {
             resultsDiv.innerHTML = `
                 <div class="empty-state">
-                    <p>🎵 Digite o nome de uma música ou artista acima</p>
-                    <div class="hint">Exemplo: Gita, Raul Seixas, Yesterday...</div>
+                    <p>🎵 Digite o nome de uma música ou artista no campo acima</p>
                 </div>
             `;
             return;
@@ -493,7 +507,6 @@
             resultsDiv.innerHTML = `
                 <div class="empty-state">
                     <p>😕 Nenhuma música encontrada para "${escapeHtml(term)}"</p>
-                    <div class="hint">Tente outro nome ou artista</div>
                 </div>
             `;
             return;
@@ -511,17 +524,26 @@
             html += `
                 <div class="music-card">
                     <div class="music-info">
-                        <div class="music-title" data-song='${JSON.stringify(song)}'>
-                            <div class="music-name">${escapeHtml(song.nome)}</div>
-                            <div class="music-artist">${escapeHtml(song.artista)}</div>
+                        <div class="music-info-left">
+                            <div class="music-title" data-song='${JSON.stringify(song)}'>
+                                <div class="music-name">${escapeHtml(song.nome)}</div>
+                                <div class="music-artist">${escapeHtml(song.artista)}</div>
+                            </div>
+                            <div class="link-lyrics">📄 Letra</div>
                         </div>
                         <div class="music-controls">
-                            <audio controls preload="metadata">
-                                <source src="${song.mp3}" type="audio/mpeg">
-                            </audio>
-                            <audio controls preload="metadata">
-                                <source src="${song.backingTrack}" type="audio/mpeg">
-                            </audio>
+                            <div class="player-label">
+                                <span>🎧 Original</span>
+                                <audio controls preload="metadata">
+                                    <source src="${song.mp3}" type="audio/mpeg">
+                                </audio>
+                            </div>
+                            <div class="player-label">
+                                <span>🎹 Backing</span>
+                                <audio controls preload="metadata">
+                                    <source src="${song.backingTrack}" type="audio/mpeg">
+                                </audio>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -531,7 +553,7 @@
         html += `</div></div>`;
         resultsDiv.innerHTML = html;
 
-        // Evento de clique no NOME da música (não no botão)
+        // Clique no nome da música
         document.querySelectorAll('.music-title').forEach(title => {
             title.addEventListener('click', (e) => {
                 e.stopPropagation();
