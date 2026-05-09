@@ -23,7 +23,7 @@
             min-height: 100vh;
         }
 
-        /* Overlay escuro para contraste */
+        /* Overlay mais leve e transparente para mostrar a imagem de fundo */
         body::before {
             content: "";
             position: fixed;
@@ -31,18 +31,18 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.4);
             z-index: -1;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background-color: rgba(30, 30, 40, 0.85);
+            background-color: rgba(20, 20, 30, 0.7);
             border-radius: 20px;
-            backdrop-filter: blur(3px);
+            backdrop-filter: blur(2px);
             padding: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
 
         h1 {
@@ -58,7 +58,8 @@
             text-align: center;
             margin-bottom: 25px;
             font-style: italic;
-            color: #ddd;
+            color: #f0f0f0;
+            text-shadow: 1px 1px 2px #000;
         }
 
         /* Caixa de busca */
@@ -75,7 +76,7 @@
             border: none;
             border-radius: 50px;
             outline: none;
-            background-color: #f0f0f0;
+            background-color: rgba(255,255,255,0.9);
             color: #1e1e2a;
             text-align: center;
         }
@@ -83,7 +84,7 @@
             color: #777;
         }
 
-        /* Botão Voltar (estilo principal) */
+        /* Botão Voltar */
         .back-btn {
             background-color: #ff7b2c;
             border: none;
@@ -113,10 +114,10 @@
         .col {
             flex: 1;
             min-width: 200px;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.5);
             border-radius: 16px;
             padding: 15px;
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(2px);
         }
         .col h3 {
             text-align: center;
@@ -126,6 +127,7 @@
             padding-bottom: 8px;
             margin-bottom: 20px;
             color: #ffcc77;
+            text-shadow: 1px 1px 1px #000;
         }
 
         /* Lista de músicas */
@@ -138,7 +140,7 @@
         .music-list li {
             margin-bottom: 12px;
             padding: 8px;
-            background: rgba(255,255,240,0.1);
+            background: rgba(255,255,240,0.15);
             border-radius: 12px;
             transition: 0.1s;
             cursor: pointer;
@@ -148,7 +150,7 @@
             flex-wrap: wrap;
         }
         .music-list li:hover {
-            background: rgba(255,200,100,0.3);
+            background: rgba(255,200,100,0.35);
         }
         .song-name {
             font-weight: bold;
@@ -156,11 +158,12 @@
             flex: 2;
             cursor: pointer;
             word-break: break-word;
+            text-shadow: 1px 1px 1px #000;
         }
         .song-name small {
             font-weight: normal;
             font-size: 0.7rem;
-            color: #ccc;
+            color: #eee;
         }
         .audio-controls {
             display: flex;
@@ -174,9 +177,7 @@
             height: 35px;
         }
 
-        /* ===========================================
-           PÁGINA DE DETALHE (LETRA + PLAYERS LADO A LADO)
-           =========================================== */
+        /* Página de detalhe (letra + players) */
         .detail-container {
             display: flex;
             flex-wrap: wrap;
@@ -186,7 +187,7 @@
         .lyrics-area {
             flex: 2;
             min-width: 250px;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.75);
             border-radius: 24px;
             padding: 20px;
             border-left: 6px solid #ffaa44;
@@ -209,7 +210,7 @@
         .players-area {
             flex: 1;
             min-width: 260px;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.65);
             border-radius: 24px;
             padding: 20px;
             display: flex;
@@ -242,10 +243,6 @@
         .back-btn-container {
             text-align: left;
             margin-bottom: 15px;
-        }
-        hr {
-            border-color: #ffaa4433;
-            margin: 15px 0;
         }
 
         /* Scroll */
@@ -287,68 +284,26 @@
     <h1>🎸 Portal Garage Band Mário Cravo 🥁</h1>
     <div class="sub">Estúdio virtual - Toque, cante e sinta a música</div>
 
-    <!-- Busca global (visível em todas as telas) -->
+    <!-- Busca global -->
     <div class="search-box">
         <input type="text" id="searchInput" placeholder="🔍 Buscar música, artista... exemplo: 'Gita' ou 'Raul'" autocomplete="off">
     </div>
 
-    <!-- Área dinâmica: lista principal OU detalhe da música com letra + players -->
+    <!-- Área dinâmica -->
     <div id="dynamicContent"></div>
 
-    <footer style="text-align: center; margin-top: 30px; font-size: 0.8rem; color: #ccc;">
+    <footer style="text-align: center; margin-top: 30px; font-size: 0.8rem; color: #ddd;">
         🎵 Clique no nome da música → Letra + players originais e backing tracks | Volte quando quiser
     </footer>
 </div>
 
+<script src="musicas.js"></script>
 <script>
-    // --------------------------------------------------------------
-    // BANCO DE DADOS DE MÚSICAS (adicione quantas precisar)
-    // --------------------------------------------------------------
-    const musicDatabase = [
-        {
-            id: 1,
-            nome: "Gita",
-            artista: "Raul Seixas",
-            mp3: "gita.mp3",
-            backingTrack: "gitabt.mp3",
-            txt: "gita-raul-seixas.txt"
-        }
-        // =================================================================
-        // COMO ADICIONAR MAIS MÚSICAS (mais de 100):
-        // Copie o bloco abaixo e cole dentro do array, ajustando os valores:
-        // {
-        //     id: 2,
-        //     nome: "Título da música",
-        //     artista: "Nome do artista",
-        //     mp3: "arquivo.mp3",
-        //     backingTrack: "arquivobt.mp3",
-        //     txt: "arquivo-letra.txt"
-        // },
-        // =================================================================
-        // Exemplo extra:
-        // {
-        //     id: 2,
-        //     nome: "Yesterday",
-        //     artista: "Beatles",
-        //     mp3: "yesterday.mp3",
-        //     backingTrack: "yesterdaybt.mp3",
-        //     txt: "yesterday-beatles.txt"
-        // },
-        // {
-        //     id: 3,
-        //     nome: "Alucinação",
-        //     artista: "Belchior",
-        //     mp3: "alucinacao.mp3",
-        //     backingTrack: "alucinacaobt.mp3",
-        //     txt: "alucinacao-belchior.txt"
-        // }
-    ];
-
     // Estado da aplicação
-    let currentView = "list";      // "list" ou "detail"
-    let currentSong = null;        // guarda a música completa que está em detalhe
+    let currentView = "list";
+    let currentSong = null;
     let currentLyricsText = "Carregando letra...";
-    let searchTerm = "";
+    let musicDatabase = [];
 
     // Elementos
     const dynamicDiv = document.getElementById("dynamicContent");
@@ -369,7 +324,7 @@
         );
     }
 
-    // Carregar o conteúdo do arquivo .txt
+    // Carregar conteúdo do arquivo .txt
     async function loadLyricsFromFile(txtFile) {
         try {
             const response = await fetch(txtFile);
@@ -381,31 +336,27 @@
         }
     }
 
-    // Exibir a tela de detalhe (letra + players lado a lado)
+    // Exibir tela de detalhe
     async function showSongDetail(song) {
         currentSong = song;
-        // Carrega a letra do arquivo
         currentLyricsText = await loadLyricsFromFile(song.txt);
         currentView = "detail";
         renderDynamicContent();
     }
 
-    // Função que renderiza a tela de detalhe (com botão voltar, letra à esquerda, players à direita)
+    // Renderizar tela de detalhe
     function renderDetailView() {
         if (!currentSong) return;
         
-        // Monta a estrutura: container flexível com duas áreas
         const html = `
             <div class="back-btn-container">
                 <button class="back-btn" id="backToMainBtn">← Voltar para página principal</button>
             </div>
             <div class="detail-container">
-                <!-- Lado esquerdo: letra -->
                 <div class="lyrics-area">
                     <h3>📖 ${escapeHtml(currentSong.nome)} - ${escapeHtml(currentSong.artista)}</h3>
                     <div class="lyrics-content">${escapeHtml(currentLyricsText).replace(/\n/g, '<br>')}</div>
                 </div>
-                <!-- Lado direito: players (original + backing track) -->
                 <div class="players-area">
                     <div class="player-card">
                         <h4>🎧 Música Original</h4>
@@ -430,7 +381,6 @@
         
         dynamicDiv.innerHTML = html;
         
-        // Adiciona evento ao botão voltar
         const backBtn = document.getElementById("backToMainBtn");
         if (backBtn) {
             backBtn.addEventListener("click", () => {
@@ -441,10 +391,10 @@
         }
     }
 
-    // Gera as três colunas (listagem principal)
+    // Gerar três colunas
     function renderThreeColumns(songsToRender) {
         if (songsToRender.length === 0) {
-            return `<div style="text-align:center; padding:40px; background: rgba(0,0,0,0.6); border-radius: 30px;">🎵 Nenhuma música encontrada. Tente outra busca.</div>`;
+            return `<div style="text-align:center; padding:40px; background: rgba(0,0,0,0.5); border-radius: 30px;">🎵 Nenhuma música encontrada. Tente outra busca.</div>`;
         }
 
         let col1Html = `<div class="col"><h3>🎤 Música & Autor</h3><ul class="music-list">`;
@@ -452,7 +402,6 @@
         let col3Html = `<div class="col"><h3>🎹 Backing Track</h3><ul class="music-list">`;
 
         songsToRender.forEach(song => {
-            // Coluna 1: Nome + artista + clique para detalhe
             col1Html += `
                 <li>
                     <span class="song-name" data-id="${song.id}" data-txt="${song.txt}" data-nome="${song.nome}" data-artista="${song.artista}" data-mp3="${song.mp3}" data-bt="${song.backingTrack}">
@@ -461,7 +410,6 @@
                     </span>
                 </li>`;
             
-            // Coluna 2: Player original
             col2Html += `
                 <li>
                     <div class="audio-controls">
@@ -471,7 +419,6 @@
                     </div>
                 </li>`;
             
-            // Coluna 3: Player backing track
             col3Html += `
                 <li>
                     <div class="audio-controls">
@@ -489,17 +436,15 @@
         return `<div class="three-columns">${col1Html}${col2Html}${col3Html}</div>`;
     }
 
-    // Adicionar eventos de clique nos nomes das músicas (delegação após render)
+    // Evento de clique nas músicas
     function attachSongClickEvents() {
         const songItems = document.querySelectorAll('.song-name');
         songItems.forEach(item => {
-            // Remove listener anterior para evitar duplicação
             item.removeEventListener('click', songClickHandler);
             item.addEventListener('click', songClickHandler);
         });
     }
 
-    // Manipulador do clique - abre a página de detalhe com a música selecionada
     function songClickHandler(event) {
         const target = event.currentTarget;
         const songId = parseInt(target.getAttribute('data-id'));
@@ -509,10 +454,8 @@
         const songBt = target.getAttribute('data-bt');
         const songTxt = target.getAttribute('data-txt');
         
-        // Encontra a música completa no banco (ou cria objeto)
         let selectedSong = musicDatabase.find(s => s.id === songId);
         if (!selectedSong && songNome) {
-            // fallback caso não encontre pelo ID (segurança)
             selectedSong = {
                 id: songId,
                 nome: songNome,
@@ -529,16 +472,14 @@
         }
     }
 
-    // Função principal que decide o que renderizar (lista ou detalhe)
+    // Renderizar conteúdo principal
     async function renderDynamicContent() {
         if (currentView === "detail") {
             renderDetailView();
             return;
         }
         
-        // Modo lista: pegar termo da busca, filtrar, ordenar e montar as três colunas
         const term = searchInputElem.value;
-        searchTerm = term;
         let filtered = filterSongs(musicDatabase, term);
         filtered = sortSongs(filtered);
         
@@ -547,15 +488,13 @@
         attachSongClickEvents();
     }
 
-    // Evento de busca ao digitar (só afeta a lista)
+    // Evento de busca
     function onSearchInput() {
         if (currentView === "list") {
             renderDynamicContent();
         }
-        // Se estiver no detalhe, a busca não interfere (mas manterá o estado)
     }
 
-    // Escapar HTML para segurança
     function escapeHtml(str) {
         if (!str) return '';
         return str.replace(/[&<>]/g, function(m) {
@@ -566,29 +505,24 @@
         });
     }
 
-    // Inicialização: verifica se há músicas, se não houver adiciona exemplo educativo
-    if (musicDatabase.length === 0) {
-        musicDatabase.push({
-            id: 999,
-            nome: "Exemplo",
-            artista: "Adicione suas músicas",
-            mp3: "exemplo.mp3",
-            backingTrack: "exemplobt.mp3",
-            txt: "exemplo.txt"
-        });
-        console.warn("⚠️ Nenhuma música cadastrada. Adicione suas músicas seguindo o modelo!");
+    // Carregar músicas do arquivo externo
+    function loadMusicDatabase() {
+        if (typeof musicData !== 'undefined') {
+            musicDatabase = musicData;
+            // Garantir que todas têm ID
+            musicDatabase.forEach((song, idx) => {
+                if (!song.id) song.id = idx + 1;
+            });
+            renderDynamicContent();
+        } else {
+            console.error("Arquivo musicas.js não carregou corretamente");
+            dynamicDiv.innerHTML = `<div style="text-align:center; padding:40px;">⚠️ Erro ao carregar playlist. Verifique se o arquivo musicas.js existe.</div>`;
+        }
     }
 
-    // Garantir que todos os ids sejam únicos (caso algum esteja faltando)
-    musicDatabase.forEach((song, idx) => {
-        if (!song.id) song.id = idx + 1;
-    });
-
-    // Event listener da busca
+    // Inicialização
     searchInputElem.addEventListener("input", onSearchInput);
-    
-    // Render inicial
-    renderDynamicContent();
+    loadMusicDatabase();
 </script>
 </body>
 </html>
