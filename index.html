@@ -51,7 +51,7 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
         }
 
         .tabs {
@@ -76,10 +76,10 @@
             border-bottom-color: #ffb347;
         }
 
-        /* BOX DE BUSCA - VISÍVEL */
         .search-box {
             max-width: 500px;
             margin: 0 auto 40px;
+            position: relative;
         }
 
         .search-box input {
@@ -205,7 +205,6 @@
         <a href="ensaios.html">Fotos & Vídeos</a>
     </div>
 
-    <!-- BOX DE BUSCA - VISÍVEL - SEM PLACEHOLDER -->
     <div class="search-box">
         <input type="text" id="searchInput" placeholder="" autocomplete="off">
     </div>
@@ -277,15 +276,11 @@
 
     function renderList() {
         const term = searchInput.value;
-        
-        // Busca vazia: NÃO MOSTRA NADA
         if (!term.trim()) {
             resultsDiv.innerHTML = '';
             return;
         }
-        
         let filtered = filterSongs(musicDatabase, term);
-        
         if (filtered.length === 0) {
             resultsDiv.innerHTML = `<div style="text-align:center; padding:40px; background:rgba(255,255,255,0.05); border-radius:32px;">😕 Nenhuma música encontrada para "${escapeHtml(term)}"</div>`;
             return;
