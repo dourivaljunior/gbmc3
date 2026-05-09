@@ -23,7 +23,7 @@
             position: relative;
         }
 
-        /* Overlay sutil e elegante */
+        /* Overlay sutil */
         body::before {
             content: "";
             position: fixed;
@@ -31,22 +31,25 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.5) 100%);
+            background: linear-gradient(135deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.45) 100%);
             z-index: 0;
         }
 
         .container {
             position: relative;
             z-index: 1;
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 40px 24px;
+            padding: 60px 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Header */
         .header {
             text-align: center;
-            margin-bottom: 48px;
+            margin-bottom: 60px;
         }
 
         h1 {
@@ -56,7 +59,6 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: none;
             letter-spacing: -0.5px;
             margin-bottom: 12px;
         }
@@ -67,10 +69,11 @@
             font-weight: 400;
         }
 
-        /* Caixa de pesquisa - design moderno */
+        /* Caixa de pesquisa - destaque */
         .search-container {
             max-width: 600px;
             margin: 0 auto 40px auto;
+            width: 100%;
         }
 
         .search-box {
@@ -89,7 +92,7 @@
 
         .search-box input {
             width: 100%;
-            padding: 16px 20px 16px 52px;
+            padding: 18px 20px 18px 52px;
             font-size: 1rem;
             border: 2px solid rgba(255,255,255,0.2);
             border-radius: 60px;
@@ -111,37 +114,44 @@
             font-weight: 400;
         }
 
-        /* Contador de resultados */
+        /* Resultados da busca - só aparece quando digitar */
+        .results-container {
+            margin-top: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .results-info {
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             color: rgba(255,255,255,0.7);
             font-size: 0.85rem;
             letter-spacing: 0.3px;
         }
 
-        /* Lista de músicas - design limpo */
-        .music-grid {
+        /* Lista de músicas */
+        .music-list {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            max-width: 900px;
-            margin: 0 auto;
         }
 
         .music-card {
             background: rgba(255,255,255,0.08);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 16px 24px;
+            padding: 16px 20px;
             transition: all 0.25s ease;
             border: 1px solid rgba(255,255,255,0.1);
-            cursor: pointer;
         }
 
         .music-card:hover {
             background: rgba(255,255,255,0.15);
-            transform: translateX(8px);
+            transform: translateX(6px);
             border-color: rgba(255,180,71,0.4);
         }
 
@@ -155,23 +165,24 @@
 
         .music-title {
             flex: 2;
+            min-width: 150px;
         }
 
         .music-name {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             color: #ffdd99;
             margin-bottom: 4px;
         }
 
         .music-artist {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: rgba(255,255,255,0.6);
         }
 
         .music-controls {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
             align-items: center;
         }
@@ -179,9 +190,9 @@
         .btn-lyrics {
             background: rgba(255,180,71,0.2);
             border: 1px solid rgba(255,180,71,0.5);
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 40px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 500;
             color: #ffb347;
             cursor: pointer;
@@ -194,12 +205,12 @@
         }
 
         audio {
-            height: 36px;
+            height: 34px;
             border-radius: 40px;
-            max-width: 160px;
+            max-width: 140px;
         }
 
-        /* Estado vazio */
+        /* Estado vazio - mensagem amigável */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -209,14 +220,21 @@
         }
 
         .empty-state p {
-            color: rgba(255,255,255,0.6);
-            font-size: 1rem;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.95rem;
         }
 
-        /* Página de detalhe da música */
+        .empty-state .hint {
+            font-size: 0.8rem;
+            margin-top: 12px;
+            color: rgba(255,255,255,0.35);
+        }
+
+        /* Página de detalhe */
         .detail-view {
             max-width: 1100px;
             margin: 0 auto;
+            width: 100%;
         }
 
         .back-btn {
@@ -244,7 +262,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 32px;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.65);
             backdrop-filter: blur(16px);
             border-radius: 32px;
             padding: 32px;
@@ -259,7 +277,7 @@
         .lyrics-section h3 {
             color: #ffb347;
             margin-bottom: 20px;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 600;
         }
 
@@ -279,20 +297,20 @@
             min-width: 260px;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
         }
 
         .player-card {
             background: rgba(255,255,255,0.08);
             border-radius: 24px;
-            padding: 20px;
+            padding: 18px;
             text-align: center;
         }
 
         .player-card h4 {
             color: #ffcc77;
-            margin-bottom: 16px;
-            font-size: 1rem;
+            margin-bottom: 14px;
+            font-size: 0.95rem;
             font-weight: 600;
         }
 
@@ -304,11 +322,11 @@
         .song-title-detail {
             text-align: center;
             padding-top: 8px;
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.6);
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
         }
 
-        /* Scroll personalizado */
+        /* Scroll */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -324,7 +342,7 @@
         /* Responsivo */
         @media (max-width: 768px) {
             .container {
-                padding: 20px 16px;
+                padding: 30px 16px;
             }
             
             h1 {
@@ -342,7 +360,7 @@
             }
             
             audio {
-                max-width: 140px;
+                max-width: 130px;
             }
             
             .detail-container {
@@ -356,17 +374,17 @@
 <div class="container" id="app">
     <div class="header">
         <h1>🎸 Portal Garage Band<br>Mário Cravo</h1>
-        <div class="sub">Estúdio virtual · Toque, cante e sinta a música</div>
+        <div class="sub">Digite uma música ou artista para começar</div>
     </div>
 
     <div class="search-container">
         <div class="search-box">
             <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" placeholder="Buscar música ou artista..." autocomplete="off">
+            <input type="text" id="searchInput" placeholder="Ex: Gita, Raul Seixas, Yesterday..." autocomplete="off">
         </div>
     </div>
 
-    <div id="dynamicContent"></div>
+    <div id="resultsContent"></div>
 </div>
 
 <script src="musicas.js"></script>
@@ -376,7 +394,7 @@
     let currentLyricsText = "";
     let musicDatabase = [];
 
-    const dynamicDiv = document.getElementById("dynamicContent");
+    const resultsDiv = document.getElementById("resultsContent");
     const searchInputElem = document.getElementById("searchInput");
 
     function sortSongs(songs) {
@@ -384,7 +402,7 @@
     }
 
     function filterSongs(songs, query) {
-        if (!query.trim()) return songs;
+        if (!query.trim()) return [];
         const lowerQuery = query.toLowerCase();
         return songs.filter(s => 
             s.nome.toLowerCase().includes(lowerQuery) || 
@@ -398,7 +416,7 @@
             if (!response.ok) throw new Error(`Arquivo ${txtFile} não encontrado`);
             return await response.text();
         } catch (error) {
-            return `❌ Erro: ${error.message}\n\nVerifique se "${txtFile}" está na mesma pasta.`;
+            return `❌ Erro ao carregar letra: ${error.message}\n\nVerifique se o arquivo "${txtFile}" está na mesma pasta.`;
         }
     }
 
@@ -414,10 +432,10 @@
         
         const html = `
             <div class="detail-view">
-                <button class="back-btn" id="backToMainBtn">← Voltar</button>
+                <button class="back-btn" id="backToMainBtn">← Voltar para busca</button>
                 <div class="detail-container">
                     <div class="lyrics-section">
-                        <h3>📖 ${escapeHtml(currentSong.nome)}</h3>
+                        <h3>📖 ${escapeHtml(currentSong.nome)} - ${escapeHtml(currentSong.artista)}</h3>
                         <div class="lyrics-content">${escapeHtml(currentLyricsText).replace(/\n/g, '<br>')}</div>
                     </div>
                     <div class="players-section">
@@ -437,7 +455,7 @@
             </div>
         `;
         
-        dynamicDiv.innerHTML = html;
+        resultsDiv.innerHTML = html;
         
         document.getElementById("backToMainBtn")?.addEventListener("click", () => {
             currentView = "list";
@@ -448,13 +466,26 @@
 
     function renderListView() {
         const term = searchInputElem.value;
+        
+        // Se não tem termo de busca, não mostra nada
+        if (!term.trim()) {
+            resultsDiv.innerHTML = `
+                <div class="empty-state">
+                    <p>🎵 Digite o nome de uma música ou artista acima</p>
+                    <div class="hint">Exemplo: Gita, Raul Seixas, Yesterday...</div>
+                </div>
+            `;
+            return;
+        }
+        
         let filtered = filterSongs(musicDatabase, term);
         filtered = sortSongs(filtered);
 
         if (filtered.length === 0) {
-            dynamicDiv.innerHTML = `
+            resultsDiv.innerHTML = `
                 <div class="empty-state">
-                    <p>🎵 Nenhuma música encontrada para "${escapeHtml(term)}"</p>
+                    <p>😕 Nenhuma música encontrada para "${escapeHtml(term)}"</p>
+                    <div class="hint">Tente outro nome ou artista</div>
                 </div>
             `;
             return;
@@ -463,13 +494,14 @@
         const resultsText = filtered.length === 1 ? '1 música encontrada' : `${filtered.length} músicas encontradas`;
         
         let html = `
-            <div class="results-info">✨ ${resultsText}</div>
-            <div class="music-grid">
+            <div class="results-container">
+                <div class="results-info">✨ ${resultsText}</div>
+                <div class="music-list">
         `;
 
         filtered.forEach(song => {
             html += `
-                <div class="music-card" data-id="${song.id}">
+                <div class="music-card">
                     <div class="music-info">
                         <div class="music-title">
                             <div class="music-name">${escapeHtml(song.nome)}</div>
@@ -489,8 +521,8 @@
             `;
         });
 
-        html += `</div>`;
-        dynamicDiv.innerHTML = html;
+        html += `</div></div>`;
+        resultsDiv.innerHTML = html;
 
         // Eventos dos botões de letra
         document.querySelectorAll('.btn-lyrics').forEach(btn => {
@@ -534,7 +566,7 @@
             });
             render();
         } else {
-            dynamicDiv.innerHTML = `<div class="empty-state"><p>⚠️ Erro ao carregar playlist. Verifique o arquivo musicas.js</p></div>`;
+            resultsDiv.innerHTML = `<div class="empty-state"><p>⚠️ Erro ao carregar playlist. Verifique o arquivo musicas.js</p></div>`;
         }
     }
 
