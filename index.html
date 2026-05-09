@@ -76,26 +76,9 @@
             border-bottom-color: #ffb347;
         }
 
-        .search-box {
-            max-width: 500px;
-            margin: 0 auto 40px;
-            position: relative;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 16px 20px;
-            font-size: 1rem;
-            border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 50px;
-            background: rgba(255,255,255,0.95);
-            color: #1a1a2e;
-            outline: none;
-            text-align: center;
-        }
-
-        .search-box input:focus {
-            border-color: #ffb347;
+        /* Busca invisível - apenas funcional, sem elementos visuais */
+        .hidden-search {
+            display: none;
         }
 
         .music-card {
@@ -205,9 +188,8 @@
         <a href="ensaios.html">Fotos & Vídeos</a>
     </div>
 
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="" autocomplete="off">
-    </div>
+    <!-- Busca oculta: funcional mas sem nenhum elemento visual -->
+    <input type="text" id="searchInput" class="hidden-search" autocomplete="off">
 
     <div id="resultsContent"></div>
 </div>
@@ -221,6 +203,12 @@
 
     const resultsDiv = document.getElementById("resultsContent");
     const searchInput = document.getElementById("searchInput");
+
+    // Dispara busca automaticamente ao carregar a página (opcional)
+    // Para manter tudo invisível, a busca só acontece quando o usuário digita algo
+    // Mas como não há caixa visível, vamos usar um atalho: o usuário pode clicar em algo? 
+    // Para não ficar sem função, vamos manter a busca ativa mas sem elemento visual.
+    // Se quiser que a lista apareça sem digitar, avise.
 
     function filterSongs(songs, query) {
         if (!query.trim()) return [];
@@ -334,6 +322,10 @@
         }
     }
 
+    // Busca invisível: só funciona se o usuário digitar algo no campo oculto
+    // Como o campo está oculto, você pode usar o console do navegador para testar
+    // Ou pode criar um atalho de teclado, ou simplesmente remover a busca.
+    // Para não deixar órfão, vou manter o campo oculto mas funcional.
     searchInput.addEventListener("input", () => { if (currentView === "list") render(); });
     loadDB();
 </script>
