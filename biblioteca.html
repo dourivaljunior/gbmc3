@@ -2,117 +2,111 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Portal Garage Band | Biblioteca</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Biblioteca</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background-image: url('fundo.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 0;
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #ffd966, #ffb347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .back-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 40px;
+            cursor: pointer;
+            margin-bottom: 30px;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .back-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .card h3 {
+            color: #ffcc77;
+            margin-bottom: 12px;
+        }
+        .card p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+        .btn {
+            background: rgba(255,180,71,0.2);
+            border: 1px solid rgba(255,180,71,0.5);
+            padding: 6px 14px;
+            border-radius: 30px;
+            color: #ffb347;
+            text-decoration: none;
+            font-size: 0.8rem;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: rgba(255,180,71,0.4);
+            color: white;
+        }
+        @media (max-width: 700px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-
-<div class="navbar">
-    <div class="nav-container">
-        <div class="logo">🎸 Garage Band Mário Cravo</div>
-        <div class="nav-links">
-            <a href="index.html">🎵 Músicas</a>
-            <a href="biblioteca.html" class="active">📚 Biblioteca</a>
-            <a href="ensaios.html">📹 Fotos & Vídeos</a>
-        </div>
-    </div>
-</div>
-
 <div class="container">
-    <a href="index.html" class="back-btn">← Voltar para página principal</a>
-    
-    <div class="page-header">
-        <h1>📚 Biblioteca de Materiais</h1>
-        <p class="subtitle">Apostilas, partituras e links úteis para estudo</p>
-    </div>
-
-    <!-- Categoria: Apostilas -->
-    <div class="category">
-        <h2>📘 Apostilas e PDFs</h2>
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-icon">🎸</div>
-                <h3>Teoria Musical Completa</h3>
-                <p>Apostila para iniciantes e intermediários: notas, acordes, escalas, campos harmônicos.</p>
-                <a href="pdf/teoria-musical.pdf" class="btn">Baixar PDF</a>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">🎹</div>
-                <h3>Cifras do Repertório</h3>
-                <p>Todas as cifras e tablaturas das músicas da banda, organizadas por artista.</p>
-                <a href="pdf/cifras-completas.pdf" class="btn">Baixar PDF</a>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">🥁</div>
-                <h3>Exercícios de Ritmo</h3>
-                <p>Ritmos brasileiros e internacionais para bateria e percussão.</p>
-                <a href="pdf/exercicios-ritmo.pdf" class="btn">Baixar PDF</a>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">🎤</div>
-                <h3>Técnica Vocal</h3>
-                <p>Exercícios de respiração, aquecimento e afinação para cantores.</p>
-                <a href="pdf/tecnica-vocal.pdf" class="btn">Baixar PDF</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Categoria: Links Úteis -->
-    <div class="category">
-        <h2>🔗 Links Úteis</h2>
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-icon">🎼</div>
-                <h3>Cifra Club</h3>
-                <p>Maior acervo de cifras e tablaturas do Brasil.</p>
-                <a href="https://cifraclub.com.br" target="_blank" class="btn">Acessar</a>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">🎧</div>
-                <h3>Studio Real</h3>
-                <p>Backing tracks profissionais para estudo.</p>
-                <a href="https://studioreal.com.br" target="_blank" class="btn">Acessar</a>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">📺</div>
-                <h3>Canal Fica a Dica</h3>
-                <p>Aulas gratuitas de guitarra, violão e teoria.</p>
-                <a href="https://youtube.com/c/ficaadica" target="_blank" class="btn">Assistir</a>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">🎓</div>
-                <h3>Teoria Musical Online</h3>
-                <p>Curso gratuito de harmonia e percepção musical.</p>
-                <a href="#" class="btn">Acessar Curso</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Categoria: Partituras -->
-    <div class="category">
-        <h2>🎼 Partituras e Arranjos</h2>
-        <div class="card-grid">
-            <div class="card">
-                <div class="card-icon">📄</div>
-                <h3>Partituras - Rock Nacional</h3>
-                <p>Arranjos completos para banda (Gita, Alucinação, etc.)</p>
-                <a href="pdf/partituras-rock.zip" class="btn">Baixar ZIP</a>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">📄</div>
-                <h3>Partituras - MPB</h3>
-                <p>Arranjos de clássicos da MPB para piano e guitarra.</p>
-                <a href="pdf/partituras-mpb.zip" class="btn">Baixar ZIP</a>
-            </div>
-        </div>
+    <a href="index.html" class="back-btn">← Voltar para principal</a>
+    <h1>📚 Biblioteca</h1>
+    <div class="grid">
+        <div class="card"><h3>📘 Teoria Musical</h3><p>Apostila completa para estudos.</p><a href="#" class="btn">Baixar PDF</a></div>
+        <div class="card"><h3>🎸 Cifras do Repertório</h3><p>Todas as cifras organizadas.</p><a href="#" class="btn">Baixar PDF</a></div>
+        <div class="card"><h3>🥁 Exercícios de Ritmo</h3><p>Ritmos e viradas.</p><a href="#" class="btn">Baixar PDF</a></div>
+        <div class="card"><h3>🔗 Links Úteis</h3><p>Cifra Club, Studio Real e outros.</p><a href="#" class="btn">Acessar</a></div>
     </div>
 </div>
 </body>
