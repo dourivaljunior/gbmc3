@@ -134,7 +134,5 @@ const musicData = [
         mp3: "o-descobridor-dos-sete-mares-tim-maia.mp3",
         backingTrack: "o-descobridor-dos-sete-mares-tim-maia-bt.mp3",
         txt: "o-descobridor-dos-sete-mares-tim-maia.txt"
-    },
-
-    
+    }
 ];
