@@ -5,19 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Portal Garage Band Mário Cravo</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilo extra para garantir o menu original centralizado */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .tabs a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: 0.2s;
+        }
+        .tabs a:hover, .tabs a.active {
+            color: #ffb347;
+            border-bottom-color: #ffb347;
+        }
+        /* Remove qualquer header desnecessário */
+        .header {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header">
-        <h1>🎸 Portal Garage Band Mário Cravo</h1>
-        <p class="subtitle">Sua central de ensaios, músicas e materiais</p>
-    </div>
-
+    <!-- Menu de abas - JEITO ORIGINAL que funcionava -->
     <div class="tabs">
-        <a href="index.html" class="active">🎵 Músicas</a>
-        <a href="biblioteca.html">📚 Biblioteca</a>
-        <a href="ensaios.html">📸 Fotos & Vídeos</a>
+        <a href="index.html" class="active">Músicas</a>
+        <a href="biblioteca.html">Biblioteca</a>
+        <a href="ensaios.html">Fotos & Vídeos</a>
     </div>
 
     <div class="search-container">
@@ -72,7 +94,7 @@
         if (!currentSong) return;
         resultsDiv.innerHTML = `
             <div>
-                <button class="back-btn" id="backBtn">← Voltar para lista</button>
+                <button class="back-btn" id="backBtn">← Voltar</button>
                 <div class="detail-container">
                     <div class="lyrics-section">
                         <h3>📖 ${escapeHtml(currentSong.nome)} - ${escapeHtml(currentSong.artista)}</h3>
@@ -122,7 +144,7 @@
                                 <div class="music-name">${escapeHtml(song.nome)}</div>
                                 <div class="music-artist">${escapeHtml(song.artista)}</div>
                             </div>
-                            <div class="link-lyrics">📄 Ver Letra</div>
+                            <div class="link-lyrics">📄 Letra</div>
                         </div>
                         <div class="music-controls">
                             <div class="player-label">
