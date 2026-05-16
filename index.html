@@ -4,226 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Portal Garage Band Mário Cravo</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0; 
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-image: url('fundo.jpg');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            color: #fff;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 100%);
-            z-index: 0;
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 50px 24px;
-            min-height: 100vh;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ffd966, #ffb347);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 40px;
-        }
-
-        /* Menu de abas - simples e direto */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .tabs a {
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 500;
-            padding: 8px 0;
-            border-bottom: 2px solid transparent;
-            transition: 0.2s;
-        }
-
-        .tabs a:hover, .tabs a.active {
-            color: #ffb347;
-            border-bottom-color: #ffb347;
-        }
-
-        .search-box {
-            max-width: 500px;
-            margin: 0 auto 40px;
-            position: relative;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 16px 20px 16px 48px;
-            font-size: 1rem;
-            border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 50px;
-            background: rgba(255,255,255,0.95);
-            color: #1a1a2e;
-            outline: none;
-        }
-
-        .search-box input:focus {
-            border-color: #ffb347;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.1rem;
-            pointer-events: none;
-        }
-
-        .music-card {
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 16px 20px;
-            margin-bottom: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .music-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .music-title {
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 12px;
-            transition: 0.2s;
-        }
-
-        .music-title:hover {
-            background: rgba(255,180,71,0.2);
-        }
-
-        .music-name {
-            font-weight: 600;
-            color: #ffdd99;
-            font-size: 1rem;
-        }
-
-        .music-artist {
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.6);
-        }
-
-        .link-lyrics {
-            font-size: 0.7rem;
-            color: #ffb347;
-            background: rgba(255,180,71,0.15);
-            padding: 4px 10px;
-            border-radius: 30px;
-        }
-
-        .music-controls {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .player-label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .player-label span {
-            font-size: 0.65rem;
-            color: rgba(255,255,255,0.6);
-        }
-
-        audio {
-            height: 34px;
-            width: 130px;
-            border-radius: 40px;
-        }
-
-        .results-info {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.7);
-        }
-
-        .empty-message {
-            text-align: center;
-            padding: 40px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 32px;
-        }
-
-        @media (max-width: 700px) {
-            .music-info {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .music-controls {
-                width: 100%;
-                justify-content: space-between;
-            }
-            audio {
-                width: 120px;
-            }
-            h1 {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
-    <h1>Portal Garage Band Mário Cravo</h1>
-
-    <div class="tabs">
-        <a href="index.html" class="active">Músicas</a>
-        <a href="biblioteca.html">Biblioteca</a>
-        <a href="ensaios.html">Fotos & Vídeos</a>
+    <div class="header">
+        <h1>🎸 Portal Garage Band Mário Cravo</h1>
+        <p class="subtitle">Sua central de ensaios, músicas e materiais</p>
     </div>
 
-    <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="Digite música ou artista..." autocomplete="off">
+    <div class="tabs">
+        <a href="index.html" class="active">🎵 Músicas</a>
+        <a href="biblioteca.html">📚 Biblioteca</a>
+        <a href="ensaios.html">📸 Fotos & Vídeos</a>
+    </div>
+
+    <div class="search-container">
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Digite música ou artista..." autocomplete="off">
+        </div>
     </div>
 
     <div id="resultsContent"></div>
@@ -247,7 +48,7 @@
 
     async function loadLyrics(file) {
         try {
-            const res = await fetch(file);
+            const res = await fetch(`letras/${file}`);
             if (!res.ok) throw new Error();
             return await res.text();
         } catch {
@@ -271,20 +72,20 @@
         if (!currentSong) return;
         resultsDiv.innerHTML = `
             <div>
-                <button class="back-btn" id="backBtn" style="background:rgba(255,255,255,0.15); border:none; color:white; padding:10px 24px; border-radius:40px; cursor:pointer; margin-bottom:30px;">← Voltar</button>
-                <div style="display:flex; flex-wrap:wrap; gap:30px; background:rgba(0,0,0,0.75); border-radius:32px; padding:40px;">
-                    <div style="flex:3; min-width:280px;">
-                        <h3 style="color:#ffb347; margin-bottom:20px;">📖 ${escapeHtml(currentSong.nome)} - ${escapeHtml(currentSong.artista)}</h3>
-                        <div style="font-family:monospace; white-space:pre-wrap; max-height:65vh; overflow:auto; line-height:1.6;">${escapeHtml(currentLyricsText).replace(/\n/g,'<br>')}</div>
+                <button class="back-btn" id="backBtn">← Voltar para lista</button>
+                <div class="detail-container">
+                    <div class="lyrics-section">
+                        <h3>📖 ${escapeHtml(currentSong.nome)} - ${escapeHtml(currentSong.artista)}</h3>
+                        <div class="lyrics-content">${escapeHtml(currentLyricsText).replace(/\n/g,'<br>')}</div>
                     </div>
-                    <div style="flex:1; min-width:260px; display:flex; flex-direction:column; gap:24px;">
-                        <div style="background:rgba(255,255,255,0.08); border-radius:24px; padding:24px; text-align:center;">
-                            <h4 style="color:#ffcc77; margin-bottom:16px;">🎧 Música Original</h4>
-                            <audio controls src="${currentSong.mp3}" style="width:100%"></audio>
+                    <div class="players-section">
+                        <div class="player-card">
+                            <h4>🎧 Música Original</h4>
+                            <audio controls src="musicas/${currentSong.mp3}"></audio>
                         </div>
-                        <div style="background:rgba(255,255,255,0.08); border-radius:24px; padding:24px; text-align:center;">
-                            <h4 style="color:#ffcc77; margin-bottom:16px;">🎹 Backing Track</h4>
-                            <audio controls src="${currentSong.backingTrack}" style="width:100%"></audio>
+                        <div class="player-card">
+                            <h4>🎹 Backing Track</h4>
+                            <audio controls src="musicas/${currentSong.backingTrack}"></audio>
                         </div>
                     </div>
                 </div>
@@ -300,7 +101,6 @@
     function renderList() {
         const term = searchInput.value;
         
-        // Busca vazia: NÃO MOSTRA NADA (mensagem removida)
         if (!term.trim()) {
             resultsDiv.innerHTML = '';
             return;
@@ -317,14 +117,22 @@
             html += `
                 <div class="music-card">
                     <div class="music-info">
-                        <div class="music-title" data-song='${JSON.stringify(song)}'>
-                            <div class="music-name">${escapeHtml(song.nome)}</div>
-                            <div class="music-artist">${escapeHtml(song.artista)}</div>
+                        <div class="music-info-left">
+                            <div class="music-title" data-song='${JSON.stringify(song)}'>
+                                <div class="music-name">${escapeHtml(song.nome)}</div>
+                                <div class="music-artist">${escapeHtml(song.artista)}</div>
+                            </div>
+                            <div class="link-lyrics">📄 Ver Letra</div>
                         </div>
-                        <div class="link-lyrics">📄 Letra</div>
                         <div class="music-controls">
-                            <div class="player-label"><span>🎧 Original</span><audio controls src="${song.mp3}"></audio></div>
-                            <div class="player-label"><span>🎹 Backing</span><audio controls src="${song.backingTrack}"></audio></div>
+                            <div class="player-label">
+                                <span>🎧 Original</span>
+                                <audio controls src="musicas/${song.mp3}"></audio>
+                            </div>
+                            <div class="player-label">
+                                <span>🎹 Backing</span>
+                                <audio controls src="musicas/${song.backingTrack}"></audio>
+                            </div>
                         </div>
                     </div>
                 </div>
