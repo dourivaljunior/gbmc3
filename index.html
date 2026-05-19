@@ -3,7 +3,7 @@
 <head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Portal Garage Band Mário Cravo</title> 
+    <title>Portal Garage Band Mário Cravo</title>
     <style>
         * {
             margin: 0;
@@ -43,6 +43,19 @@
             min-height: 100vh;
         }
 
+        /* TÍTULO PRINCIPAL */
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffd966, #ffb347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 40px;
+        }
+
+        /* Menu de abas */
         .tabs {
             display: flex;
             justify-content: center;
@@ -284,6 +297,9 @@
             .detail-container {
                 padding: 24px;
             }
+            h1 {
+                font-size: 1.8rem;
+            }
             .tabs {
                 gap: 15px;
             }
@@ -296,6 +312,9 @@
 <body>
 
 <div class="container">
+    <!-- TÍTULO PRINCIPAL -->
+    <h1>Portal Garage Band Mário Cravo</h1>
+
     <div class="tabs">
         <a href="index.html" class="active">Músicas</a>
         <a href="biblioteca.html">Biblioteca</a>
@@ -309,12 +328,7 @@
 
     <div id="resultsContent"></div>
 </div>
-<div class="tabs">
-    <a href="index.html">Músicas</a>
-    <a href="biblioteca.html">Biblioteca</a>
-    <a href="ensaios.html">Fotos & Vídeos</a>
-    <a href="busca-cifras.html">🔍 Buscar Cifras</a>
-</div>
+
 <script src="musicas.js"></script>
 <script>
     let currentView = "list";
