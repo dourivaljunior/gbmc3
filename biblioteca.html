@@ -99,6 +99,16 @@
             gap: 24px;
         }
 
+        /* Grid especial para card único centralizado */
+        .card-grid-single {
+            display: flex;
+            justify-content: center;
+        }
+        .card-grid-single .card {
+            max-width: 400px;
+            width: 100%;
+        }
+
         .card {
             background: rgba(255,255,255,0.08);
             backdrop-filter: blur(10px);
@@ -156,6 +166,21 @@
             border-left: 3px solid #ffb347;
         }
 
+        /* Card de destaque para o repertório completo */
+        .highlight-card {
+            background: rgba(255,180,71,0.15);
+            border: 2px solid rgba(255,180,71,0.5);
+        }
+        .highlight-card .btn {
+            background: #ffb347;
+            color: #1a1a2e;
+            font-weight: bold;
+        }
+        .highlight-card .btn:hover {
+            background: #ff9500;
+            color: white;
+        }
+
         @media (max-width: 768px) {
             .card-grid {
                 grid-template-columns: 1fr;
@@ -178,65 +203,68 @@
         <p class="subtitle">Materiais de estudo, cifras e recursos</p>
     </div>
 
-    <!-- Apostilas, Livros em pdf -->
+    <!-- Seção 1: Miscelânea (3 cards) -->
     <div class="category">
-        <h2>📘 Miscelânea </h2>
+        <h2>📘 Miscelânea</h2>
         <div class="card-grid">
             <div class="card">
                 <div class="card-icon">📖</div>
                 <h3>Repertório Organizado por Quantidade de Acordes</h3>
-                <p>Apostila bem organizada.</p>
-                <a href="https://drive.google.com/drive/folders/1c354K_d91Gvq5gNs3wWlHRFqifkVCVHI" class="btn">📥 Baixar PDF 1</a>
+                <p>Apostila bem organizada para iniciantes e intermediários.</p>
+                <a href="https://drive.google.com/drive/folders/1c354K_d91Gvq5gNs3wWlHRFqifkVCVHI" target="_blank" class="btn">📥 Acessar Pasta</a>
             </div>
             <div class="card">
                 <div class="card-icon">📗</div>
-                <h3>Miscelânea </h3>
+                <h3>Miscelânea</h3>
                 <p>Músicas de Belchior, Zé Renato, Caetano Veloso e muito mais.</p>
-                <a href="https://drive.google.com/drive/folders/1c354K_d91Gvq5gNs3wWlHRFqifkVCVHI" class="btn">📥 Baixar PDF 2</a>
+                <a href="https://drive.google.com/drive/folders/1c354K_d91Gvq5gNs3wWlHRFqifkVCVHI" target="_blank" class="btn">📥 Acessar Pasta</a>
             </div>
             <div class="card">
                 <div class="card-icon">📕</div>
-                <h3>Apostila 100 cifras fáceis </h3>
-                <p>Músicas de todos os estilos.</p>
-                <a href="https://drive.google.com/drive/folders/1c354K_d91Gvq5gNs3wWlHRFqifkVCVHI" class="btn">📥 Baixar PDF 3</a>
+                <h3>Apostila 100 Cifras Fáceis</h3>
+                <p>Músicas de todos os estilos para começar.</p>
+                <a href="https://drive.google.com/drive/folders/1c354K_d91Gvq5gNs3wWlHRFqifkVCVHI" target="_blank" class="btn">📥 Acessar Pasta</a>
             </div>
         </div>
     </div>
 
-    <!-- Mais Músicas para aumentar seu Repertório -->
+    <!-- Seção 2: Músicas Cifradas por Estilo Musical (3 cards: Rock, Samba, Forró) -->
     <div class="category">
-        <h2>🎸 Músicas Cifradas por Estilo Musical </h2>
+        <h2>🎸 Músicas Cifradas por Estilo Musical</h2>
         <div class="card-grid">
             <div class="card">
                 <div class="card-icon">🎵</div>
                 <h3>Cifras - Rock Nacional</h3>
-                <p>Legião, Paralamas, Titãs, Raul e muito mais.</p>
-                <a href="https://drive.google.com/drive/folders/1c354K_d91Gvq5gNs3wWlHRFqifkVCVHI" class="btn">📥 Baixar PDF 1</a>
+                <p>Legião, Paralamas, Titãs, Raul Seixas e muito mais.</p>
+                <a href="https://drive.google.com/drive/folders/1c354K_d91Gvq5gNs3wWlHRFqifkVCVHI" target="_blank" class="btn">📥 Acessar Pasta</a>
             </div>
             <div class="card">
                 <div class="card-icon">🎶</div>
-                <h3>Cifras - SAMBA & Clássicos</h3>
-                <p>Martinho da Vila, Noel Rosa, Adoniram Barbosa e outros.</p>
-                <a href="https://drive.google.com/file/d/1yF5NucMh-uXX1eOd5AMLhqT4f42S1I_6/view?usp=drive_link" class="btn">📥 Baixar PDF 2</a>
+                <h3>Cifras - Samba & Clássicos</h3>
+                <p>Martinho da Vila, Noel Rosa, Adoniran Barbosa e outros.</p>
+                <a href="https://drive.google.com/file/d/1yF5NucMh-uXX1eOd5AMLhqT4f42S1I_6/view?usp=drive_link" target="_blank" class="btn">📥 Baixar PDF</a>
             </div>
-            
             <div class="card">
-                <div class="card-icon">🎶</div>
-                <h3>Cifras - Forró & Carnaval/h3>
-                <p>em preparação.</p>
-                <a href="" class="btn">📥 Baixar PDF 2</a>
-            </div>
-            
-            <div class="card">
-                <div class="card-icon">🎼</div>
-                <h3>Cifras - Repertório Completo</h3>
-                <p>Todas as apostilas compiladas em um único pdf.</p>
-                <a href="https://drive.google.com/file/d/1P-Nynfp07A2AC99i_csAUrycl2qgC98i/view?usp=drive_link" class="btn">📥 Baixar PDF 3</a>
+                <div class="card-icon">🎺</div>
+                <h3>Cifras - Forró & Carnaval</h3>
+                <p>Em breve - Prepare seu xote e sua folia!</p>
+                <a href="#" class="btn">📥 Em breve</a>
             </div>
         </div>
     </div>
 
-    
+    <!-- Seção 3: Repertório Completo (card único, centralizado e destacado) -->
+    <div class="category">
+        <h2>🎼 Compilado Especial</h2>
+        <div class="card-grid-single">
+            <div class="card highlight-card">
+                <div class="card-icon">📚</div>
+                <h3>Cifras - Repertório Completo</h3>
+                <p>Todas as apostilas compiladas em um único PDF. Material completo com centenas de músicas organizadas.</p>
+                <a href="https://drive.google.com/file/d/1P-Nynfp07A2AC99i_csAUrycl2qgC98i/view?usp=drive_link" target="_blank" class="btn">📥 Baixar PDF Completo</a>
+            </div>
+        </div>
+    </div>
 
     <!-- Ferramentas Úteis -->
     <div class="category">
@@ -244,14 +272,14 @@
         <div class="card-grid">
             <div class="card tools-card">
                 <div class="card-icon">📥</div>
-                <h3>WebSite para Transformar Videos do YouTube em MP3</h3>
+                <h3>YouTube para MP3</h3>
                 <p>Baixe o áudio de qualquer vídeo do YouTube em alta qualidade (MP3). Basta colar a URL e baixar.</p>
                 <a href="https://y2meta.is/pt91/youtube-to-mp3/" target="_blank" class="btn">🔗 Acessar Ferramenta</a>
             </div>
             
             <div class="card tools-card">
                 <div class="card-icon">🎧</div>
-                <h3>Remover Vocal - Faça seus prórpios Backing Track</h3>
+                <h3>Remover Vocal - Backing Track</h3>
                 <p>Envie sua música em MP3 e remova o vocal automaticamente. Crie backing tracks para ensaiar.</p>
                 <a href="https://vocalremover.org/" target="_blank" class="btn">🔗 Acessar Ferramenta</a>
             </div>
