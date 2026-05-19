@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Buscador de Cifras - Garage Band Mário Cravo</title>
-    <!-- Importa a biblioteca PDF.js para ler os arquivos -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <title>Biblioteca - Garage Band Mário Cravo</title>
     <style>
         * {
             margin: 0;
@@ -31,19 +29,18 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%);
+            background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 100%);
             z-index: 0;
         }
 
         .container {
             position: relative;
             z-index: 1;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 40px 24px;
         }
 
-        /* Botão voltar */
         .back-btn {
             background: rgba(255,255,255,0.15);
             border: 1px solid rgba(255,255,255,0.2);
@@ -58,7 +55,6 @@
             gap: 8px;
             font-weight: 500;
             text-decoration: none;
-            transition: all 0.2s;
         }
 
         .back-btn:hover {
@@ -66,10 +62,9 @@
             transform: translateX(-4px);
         }
 
-        /* Cabeçalho da página */
         .page-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 48px;
         }
 
         .page-header h1 {
@@ -81,415 +76,256 @@
             color: transparent;
         }
 
-        .page-header p {
+        .subtitle {
             color: rgba(255,255,255,0.7);
-            font-size: 0.95rem;
-        }
-
-        /* Caixa de busca - MELHORADA */
-        .search-wrapper {
-            max-width: 500px;
-            margin: 0 auto 30px auto;
-        }
-
-        .search-box-custom {
-            display: flex;
-            align-items: center;
-            background: rgba(255,255,255,0.95);
-            border-radius: 50px;
-            border: 2px solid rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-        }
-
-        .search-box-custom:focus-within {
-            border-color: #ffb347;
-            box-shadow: 0 0 0 3px rgba(255,180,71,0.2);
-        }
-
-        .search-icon {
-            padding: 0 15px;
-            font-size: 1.2rem;
-            color: #999;
-        }
-
-        .search-input {
-            flex: 1;
-            padding: 14px 0;
             font-size: 1rem;
-            border: none;
-            outline: none;
-            background: transparent;
-            color: #1a1a2e;
-            font-weight: 500;
         }
 
-        .search-input::placeholder {
-            color: #aaa;
-            font-weight: 400;
+        .category {
+            margin-bottom: 48px;
         }
 
-        .search-btn {
-            background: #ffb347;
-            border: none;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin: 3px;
-        }
-
-        .search-btn:hover {
-            background: #ff9500;
-            transform: scale(1.02);
-        }
-
-        /* Status message */
-        .status-message {
-            text-align: center;
-            margin: 15px auto;
-            padding: 10px 20px;
-            border-radius: 40px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            display: inline-block;
-            width: auto;
-        }
-
-        .status-info {
-            background: rgba(0,0,0,0.5);
+        .category h2 {
             color: #ffcc77;
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            border-left: 4px solid #ffb347;
+            padding-left: 16px;
         }
 
-        .status-success {
-            background: rgba(34,197,94,0.2);
-            color: #4ade80;
-        }
-
-        .status-error {
-            background: rgba(220,38,38,0.2);
-            color: #f87171;
-        }
-
-        .status-warning {
-            background: rgba(245,158,11,0.2);
-            color: #fbbf24;
-        }
-
-        /* Layout de duas colunas */
-        .two-columns {
+        .card-grid {
             display: grid;
-            grid-template-columns: 380px 1fr;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 24px;
         }
 
-        @media (max-width: 900px) {
-            .two-columns {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Lista de resultados */
-        .results-list {
+        .card {
             background: rgba(255,255,255,0.08);
             backdrop-filter: blur(10px);
             border-radius: 24px;
-            padding: 20px;
+            padding: 24px;
+            transition: all 0.25s;
             border: 1px solid rgba(255,255,255,0.1);
-            max-height: 70vh;
-            overflow-y: auto;
         }
 
-        .results-list h3 {
-            color: #ffdd99;
+        .card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-4px);
+            border-color: rgba(255,180,71,0.4);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
             margin-bottom: 16px;
-            font-size: 1.1rem;
-            border-left: 3px solid #ffb347;
-            padding-left: 12px;
         }
 
-        .result-item {
-            background: rgba(255,255,255,0.05);
-            padding: 14px;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 10px;
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .result-item:hover {
-            background: rgba(255,180,71,0.15);
-            transform: translateX(4px);
-            border-color: rgba(255,180,71,0.3);
-        }
-
-        .result-title {
-            font-weight: bold;
+        .card h3 {
             color: #ffdd99;
-            margin-bottom: 6px;
-            font-size: 0.95rem;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
         }
 
-        .result-meta {
-            font-size: 0.7rem;
-            color: rgba(255,255,255,0.5);
-            font-family: monospace;
-        }
-
-        .empty-results {
-            text-align: center;
-            padding: 40px;
-            color: rgba(255,255,255,0.5);
-        }
-
-        /* Visualizador de PDF */
-        .viewer-section {
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            flex-direction: column;
-            height: 70vh;
-        }
-
-        .viewer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .card p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            line-height: 1.4;
             margin-bottom: 16px;
-            flex-wrap: wrap;
-            gap: 10px;
         }
 
-        .viewer-header h3 {
-            color: #ffdd99;
-            font-size: 1rem;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .viewer-badge {
+        .btn {
             background: rgba(255,180,71,0.2);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            color: #ffb347;
-        }
-
-        #pdf-frame {
-            width: 100%;
-            flex: 1;
-            border: none;
-            border-radius: 16px;
-            background: rgba(0,0,0,0.3);
-        }
-
-        /* Dica de como usar */
-        .tip-box {
-            margin-top: 30px;
-            text-align: center;
-            padding: 15px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.6);
-        }
-
-        .tip-box a {
+            border: 1px solid rgba(255,180,71,0.5);
+            padding: 10px 20px;
+            border-radius: 40px;
             color: #ffb347;
             text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+            transition: all 0.2s;
+            cursor: pointer;
         }
 
-        .tip-box a:hover {
-            text-decoration: underline;
+        .btn:hover {
+            background: rgba(255,180,71,0.4);
+            color: white;
+        }
+
+        /* Estilo especial para a seção de ferramentas */
+        .tools-card {
+            background: rgba(255,180,71,0.1);
+            border-left: 3px solid #ffb347;
+        }
+
+        /* Botão de busca destacado */
+        .search-card {
+            background: rgba(255,180,71,0.15);
+            border: 2px solid rgba(255,180,71,0.5);
+        }
+        .search-card .btn {
+            background: #ffb347;
+            color: #1a1a2e;
+            font-weight: bold;
+        }
+        .search-card .btn:hover {
+            background: #ff9500;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 24px 16px;
+            }
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <a href="biblioteca.html" class="back-btn">← Voltar para Biblioteca</a>
+    <a href="index.html" class="back-btn">← Voltar para principal</a>
     
     <div class="page-header">
-        <h1>🔍 Buscador de Cifras</h1>
-        <p>Pesquise por música, artista ou trecho da letra dentro dos nossos PDFs de cifras</p>
+        <h1>📚 Biblioteca Musical</h1>
+        <p class="subtitle">Materiais de estudo, cifras e recursos</p>
     </div>
 
-    <!-- Caixa de busca melhorada -->
-    <div class="search-wrapper">
-        <div class="search-box-custom">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="search-input" class="search-input" placeholder="Digite o nome da música ou artista..." disabled>
-            <button id="search-btn" class="search-btn">Buscar</button>
-        </div>
-        <div style="text-align: center;">
-            <div id="status-message" class="status-message status-info">📚 Carregando biblioteca de cifras...</div>
-        </div>
-    </div>
-
-    <div class="two-columns">
-        <!-- Coluna esquerda: resultados -->
-        <div class="results-list" id="results-container">
-            <h3>📋 Resultados da busca</h3>
-            <div class="empty-results">Digite uma música e clique em Buscar</div>
-        </div>
-
-        <!-- Coluna direita: visualizador PDF -->
-        <div class="viewer-section">
-            <div class="viewer-header">
-                <h3 id="playing-title">📖 Nenhuma cifra selecionada</h3>
-                <span class="viewer-badge">PDF Viewer</span>
+    <!-- ============ NOVO: CARD DE BUSCA DE CIFRAS ============ -->
+    <div class="category">
+        <h2>🔍 Busca Avançada</h2>
+        <div class="card-grid">
+            <div class="card search-card">
+                <div class="card-icon">🔎</div>
+                <h3>Buscador de Cifras</h3>
+                <p>Procure por música, artista ou trecho da letra dentro de todos os nossos PDFs de cifras. Encontre a página exata e visualize online.</p>
+                <a href="busca-cifras.html" class="btn">🔍 Buscar Músicas</a>
             </div>
-            <iframe id="pdf-frame" src="about:blank"></iframe>
         </div>
     </div>
 
-    <div class="tip-box">
-        💡 <strong>Dica:</strong> Os resultados mostram em qual PDF e página a música foi encontrada. Clique em qualquer resultado para visualizar a cifra completa.
+    <!-- Teoria Musical -->
+    <div class="category">
+        <h2>📘 Teoria Musical</h2>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">📖</div>
+                <h3>Teoria Musical - Volume 1</h3>
+                <p>Fundamentos da teoria musical, notas, escalas e intervalos.</p>
+                <a href="https://drive.google.com/uc?export=download&id=SEU_ID_AQUI_1" class="btn">📥 Baixar PDF 1</a>
+            </div>
+            <div class="card">
+                <div class="card-icon">📗</div>
+                <h3>Teoria Musical - Volume 2</h3>
+                <p>Harmonia funcional, campos harmônicos e progressões.</p>
+                <a href="https://drive.google.com/uc?export=download&id=SEU_ID_AQUI_2" class="btn">📥 Baixar PDF 2</a>
+            </div>
+            <div class="card">
+                <div class="card-icon">📕</div>
+                <h3>Teoria Musical - Volume 3</h3>
+                <p>Ritmo, leitura rítmica e compassos avançados.</p>
+                <a href="https://drive.google.com/uc?export=download&id=SEU_ID_AQUI_3" class="btn">📥 Baixar PDF 3</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cifras do Repertório -->
+    <div class="category">
+        <h2>🎸 Cifras do Repertório</h2>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">🎵</div>
+                <h3>Cifras - Rock Nacional</h3>
+                <p>Legião, Paralamas, Titãs e muito mais.</p>
+                <a href="https://drive.google.com/uc?export=download&id=SEU_ID_AQUI_4" class="btn">📥 Baixar PDF 1</a>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎶</div>
+                <h3>Cifras - MPB & Clássicos</h3>
+                <p>Belchior, Raul Seixas, Alceu Valença e outros.</p>
+                <a href="https://drive.google.com/uc?export=download&id=SEU_ID_AQUI_5" class="btn">📥 Baixar PDF 2</a>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎼</div>
+                <h3>Cifras - Repertório Completo</h3>
+                <p>Todas as músicas da banda cifradas e organizadas.</p>
+                <a href="https://drive.google.com/uc?export=download&id=SEU_ID_AQUI_6" class="btn">📥 Baixar PDF 3</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Livros e Apostilas -->
+    <div class="category">
+        <h2>🥁 Exercícios de Ritmo & Apostilas</h2>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">📘</div>
+                <h3>Exercícios de Bateria</h3>
+                <p>Padrões rítmicos, viradas e independência.</p>
+                <a href="https://drive.google.com/uc?export=download&id=SEU_ID_AQUI_7" class="btn">📥 Baixar PDF 1</a>
+            </div>
+            <div class="card">
+                <div class="card-icon">📙</div>
+                <h3>Exercícios de Guitarra</h3>
+                <p>Dedilhados, solos e técnicas avançadas.</p>
+                <a href="https://drive.google.com/uc?export=download&id=SEU_ID_AQUI_8" class="btn">📥 Baixar PDF 2</a>
+            </div>
+            <div class="card">
+                <div class="card-icon">📔</div>
+                <h3>Exercícios de Baixo</h3>
+                <p>Linhas de baixo, levadas e grooves.</p>
+                <a href="https://drive.google.com/uc?export=download&id=SEU_ID_AQUI_9" class="btn">📥 Baixar PDF 3</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ferramentas Úteis -->
+    <div class="category">
+        <h2>🎤 Ferramentas Úteis</h2>
+        <div class="card-grid">
+            <div class="card tools-card">
+                <div class="card-icon">📥</div>
+                <h3>YouTube para MP3</h3>
+                <p>Baixe o áudio de qualquer vídeo do YouTube em alta qualidade (MP3). Basta colar a URL e baixar.</p>
+                <a href="https://y2meta.is/pt91/youtube-to-mp3/" target="_blank" class="btn">🔗 Acessar Ferramenta</a>
+            </div>
+            
+            <div class="card tools-card">
+                <div class="card-icon">🎧</div>
+                <h3>Remover Vocal - Backing Track</h3>
+                <p>Envie sua música em MP3 e remova o vocal automaticamente. Crie backing tracks para ensaiar.</p>
+                <a href="https://vocalremover.org/" target="_blank" class="btn">🔗 Acessar Ferramenta</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Links Úteis -->
+    <div class="category">
+        <h2>🔗 Links Úteis</h2>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">🎓</div>
+                <h3>Cifra Club</h3>
+                <p>Maior acervo de cifras do Brasil.</p>
+                <a href="https://www.cifraclub.com.br" target="_blank" class="btn">🔗 Acessar</a>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎥</div>
+                <h3>YouTube Musical</h3>
+                <p>Canais com aulas e playlists.</p>
+                <a href="https://youtube.com" target="_blank" class="btn">🔗 Acessar</a>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎧</div>
+                <h3>Spotify - Playlist Oficial</h3>
+                <p>Playlist com as músicas do repertório.</p>
+                <a href="https://spotify.com" target="_blank" class="btn">🔗 Acessar</a>
+            </div>
+        </div>
     </div>
 </div>
-
-<script>
-    // Configura o worker da biblioteca PDF.js
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-
-    // ============ LISTA DOS SEUS PDFs DE CIFRAS ============
-    // Adicione aqui todos os PDFs que estão na pasta /pdf e que contêm cifras
-    const arquivosPDF = [
-        'pdf/cifras1.pdf',
-        'pdf/cifras2.pdf',
-        'pdf/cifras3.pdf'
-    ];
-
-    // Elementos da DOM
-    const statusMsg = document.getElementById('status-message');
-    const searchInput = document.getElementById('search-input');
-    const searchBtn = document.getElementById('search-btn');
-    const resultsContainer = document.getElementById('results-container');
-    const pdfFrame = document.getElementById('pdf-frame');
-    const playingTitle = document.getElementById('playing-title');
-
-    // Libera a interface imediatamente
-    statusMsg.className = 'status-message status-success';
-    statusMsg.innerHTML = '✅ Pronto! Digite o nome da música e clique em Buscar.';
-    searchInput.disabled = false;
-    searchInput.placeholder = "Ex: Gita, Flores, Tempo Perdido, Raul Seixas...";
-    searchInput.focus();
-
-    // Busca ao clicar no botão
-    searchBtn.addEventListener('click', function() {
-        realizarBuscaGlobal();
-    });
-
-    // Busca ao pressionar Enter
-    searchInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            realizarBuscaGlobal();
-        }
-    });
-
-    async function realizarBuscaGlobal() {
-        const termoBusca = searchInput.value.toLowerCase().trim();
-        if (!termoBusca) {
-            statusMsg.className = 'status-message status-warning';
-            statusMsg.innerHTML = '⚠️ Digite o nome da música ou artista para buscar.';
-            return;
-        }
-
-        statusMsg.className = 'status-message status-info';
-        statusMsg.innerHTML = '🔍 Varrendo os PDFs de cifras... Aguarde.';
-        
-        // Limpa resultados anteriores
-        resultsContainer.innerHTML = '<h3>📋 Resultados da busca</h3><div class="empty-results">⏳ Buscando...</div>';
-        
-        let totalResultados = 0;
-        const fragmento = document.createDocumentFragment();
-        const resultadosDiv = document.createElement('div');
-        resultadosDiv.style.width = '100%';
-
-        // Percorre cada arquivo PDF
-        for (const nomeArquivo of arquivosPDF) {
-            try {
-                // Tenta abrir o documento
-                const pdf = await pdfjsLib.getDocument(nomeArquivo).promise;
-                
-                // Varre todas as páginas
-                for (let i = 1; i <= pdf.numPages; i++) {
-                    const pagina = await pdf.getPage(i);
-                    const conteudoTexto = await pagina.getTextContent();
-                    const textoPagina = conteudoTexto.items.map(item => item.str).join(' ').toLowerCase();
-
-                    // Se encontrar o termo na página
-                    if (textoPagina.includes(termoBusca)) {
-                        totalResultados++;
-
-                        // Extrai um preview do início da página
-                        let preview = conteudoTexto.items.slice(0, 8).map(item => item.str).join(' ').trim();
-                        if (!preview || preview.length < 5) preview = `Música na página ${i}`;
-                        if (preview.length > 80) preview = preview.substring(0, 80) + '...';
-
-                        const divItem = document.createElement('div');
-                        divItem.className = 'result-item';
-                        divItem.innerHTML = `
-                            <div class="result-title">🎵 ${escapeHtml(preview)}</div>
-                            <div class="result-meta">📄 ${nomeArquivo.split('/').pop()} | 📖 Página ${i}</div>
-                        `;
-                        
-                        // Configura o clique para carregar o PDF na página exata
-                        divItem.onclick = () => exibirCifra(nomeArquivo, i, preview);
-                        resultadosDiv.appendChild(divItem);
-                    }
-                }
-            } catch (erro) {
-                console.warn(`Arquivo ${nomeArquivo} não localizado:`, erro);
-                // Não mostra erro pro usuário pra não poluir
-            }
-        }
-
-        // Atualiza a interface com os resultados
-        if (totalResultados === 0) {
-            resultsContainer.innerHTML = `
-                <h3>📋 Resultados da busca</h3>
-                <div class="empty-results">
-                    😕 Nenhuma música encontrada para "${escapeHtml(termoBusca)}"<br><br>
-                    <small>Dica: Verifique se os PDFs (cifras1.pdf, cifras2.pdf, cifras3.pdf) estão na pasta /pdf</small>
-                </div>
-            `;
-            statusMsg.className = 'status-message status-warning';
-            statusMsg.innerHTML = `🔍 Nenhum resultado encontrado para "${escapeHtml(termoBusca)}".`;
-        } else {
-            resultsContainer.innerHTML = '<h3>📋 Resultados da busca</h3>';
-            resultsContainer.appendChild(resultadosDiv);
-            statusMsg.className = 'status-message status-success';
-            statusMsg.innerHTML = `✅ Busca finalizada! Encontradas ${totalResultados} ocorrência(s) para "${escapeHtml(termoBusca)}".`;
-        }
-    }
-
-    // Carrega o PDF e navega até a página correta
-    function exibirCifra(arquivoPdf, numPagina, titulo) {
-        playingTitle.innerHTML = `🎸 ${escapeHtml(titulo.substring(0, 50))}...`;
-        statusMsg.className = 'status-message status-info';
-        statusMsg.innerHTML = `📄 Carregando página ${numPagina} do arquivo...`;
-        
-        // Adiciona #page=N para ir direto à página
-        pdfFrame.src = `${arquivoPdf}#page=${numPagina}`;
-        
-        // Pequeno delay para atualizar status
-        setTimeout(() => {
-            statusMsg.className = 'status-message status-success';
-            statusMsg.innerHTML = `✅ Cifra carregada - Página ${numPagina}`;
-        }, 1000);
-    }
-
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
-    }
-</script>
 </body>
 </html>
