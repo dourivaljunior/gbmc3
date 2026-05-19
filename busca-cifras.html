@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Buscador de Cifras - Garage Band</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-image: url('fundo.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: #fff;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%);
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 24px;
+            font-size: 0.9rem;
+            border-radius: 40px;
+            cursor: pointer;
+            margin-bottom: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateX(-4px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #ffd966, #ffb347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .page-header p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+        }
+
+        .search-wrapper {
+            max-width: 500px;
+            margin: 0 auto 30px auto;
+        }
+
+        .search-box-custom {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.95);
+            border-radius: 50px;
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .search-box-custom:focus-within {
+            border-color: #ffb347;
+            box-shadow: 0 0 0 3px rgba(255,180,71,0.2);
+        }
+
+        .search-icon {
+            padding: 0 15px;
+            font-size: 1.2rem;
+            color: #999;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 14px 0;
+            font-size: 1rem;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #1a1a2e;
+            font-weight: 500;
+        }
+
+        .search-input::placeholder {
+            color: #aaa;
+            font-weight: 400;
+        }
+
+        .search-btn {
+            background: #ffb347;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 3px;
+        }
+
+        .search-btn:hover {
+            background: #ff9500;
+            transform: scale(1.02);
+        }
+
+        .status-message {
+            text-align: center;
+            margin: 15px auto;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+            width: auto;
+        }
+
+        .status-info { background: rgba(0,0,0,0.5); color: #ffcc77; }
+        .status-success { background: rgba(34,197,94,0.2); color: #4ade80; }
+        .status-error { background: rgba(220,38,38,0.2); color: #f87171; }
+        .status-warning { background: rgba(245,158,11,0.2); color: #fbbf24; }
+
+        .two-columns {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .two-columns { grid-template-columns: 1fr; }
+        }
+
+        .results-list {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .results-list h3 {
+            color: #ffdd99;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            border-left: 3px solid #ffb347;
+            padding-left: 12px;
+        }
+
+        .result-item {
+            background: rgba(255,255,255,0.05);
+            padding: 14px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .result-item:hover {
+            background: rgba(255,180,71,0.15);
+            transform: translateX(4px);
+            border-color: rgba(255,180,71,0.3);
+        }
+
+        .result-title {
+            font-weight: bold;
+            color: #ffdd99;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .result-meta {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.5);
+            font-family: monospace;
+        }
+
+        .empty-results {
+            text-align: center;
+            padding: 40px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .viewer-section {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            height: 70vh;
+        }
+
+        .viewer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .viewer-header h3 {
+            color: #ffdd99;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .viewer-badge {
+            background: rgba(255,180,71,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #ffb347;
+        }
+
+        #pdf-frame {
+            width: 100%;
+            flex: 1;
+            border: none;
+            border-radius: 16px;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .tip-box {
+            margin-top: 30px;
+            text-align: center;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="biblioteca.html" class="back-btn">← Voltar para Biblioteca</a>
+    
+    <div class="page-header">
+        <h1>🔍 Buscador de Cifras</h1>
+        <p>Pesquise por música, artista ou trecho da letra dentro dos PDFs de cifras</p>
+    </div>
+
+    <div class="search-wrapper">
+        <div class="search-box-custom">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-input" class="search-input" placeholder="Digite o nome da música ou artista..." disabled>
+            <button id="search-btn" class="search-btn">Buscar</button>
+        </div>
+        <div style="text-align: center;">
+            <div id="status-message" class="status-message status-info">📚 Carregando biblioteca de cifras...</div>
+        </div>
+    </div>
+
+    <div class="two-columns">
+        <div class="results-list" id="results-container">
+            <h3>📋 Resultados da busca</h3>
+            <div class="empty-results">Digite uma música e clique em Buscar</div>
+        </div>
+
+        <div class="viewer-section">
+            <div class="viewer-header">
+                <h3 id="playing-title">📖 Nenhuma cifra selecionada</h3>
+                <span class="viewer-badge">PDF Viewer</span>
+            </div>
+            <iframe id="pdf-frame" src="about:blank"></iframe>
+        </div>
+    </div>
+
+    <div class="tip-box">
+        💡 <strong>Dica:</strong> Os resultados mostram em qual PDF e página a música foi encontrada. Clique em qualquer resultado para visualizar a cifra completa.
+    </div>
+</div>
+
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+    const arquivosPDF = ['pdf/cifras1.pdf', 'pdf/cifras2.pdf', 'pdf/cifras3.pdf'];
+
+    const statusMsg = document.getElementById('status-message');
+    const searchInput = document.getElementById('search-input');
+    const searchBtn = document.getElementById('search-btn');
+    const resultsContainer = document.getElementById('results-container');
+    const pdfFrame = document.getElementById('pdf-frame');
+    const playingTitle = document.getElementById('playing-title');
+
+    statusMsg.className = 'status-message status-success';
+    statusMsg.innerHTML = '✅ Pronto! Digite o nome da música e clique em Buscar.';
+    searchInput.disabled = false;
+    searchInput.placeholder = "Ex: Gita, Flores, Tempo Perdido, Raul Seixas...";
+    searchInput.focus();
+
+    searchBtn.addEventListener('click', realizarBuscaGlobal);
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') realizarBuscaGlobal();
+    });
+
+    async function realizarBuscaGlobal() {
+        const termoBusca = searchInput.value.toLowerCase().trim();
+        if (!termoBusca) {
+            statusMsg.className = 'status-message status-warning';
+            statusMsg.innerHTML = '⚠️ Digite o nome da música ou artista para buscar.';
+            return;
+        }
+
+        statusMsg.className = 'status-message status-info';
+        statusMsg.innerHTML = '🔍 Varrendo os PDFs de cifras... Aguarde.';
+        
+        resultsContainer.innerHTML = '<h3>📋 Resultados da busca</h3><div class="empty-results">⏳ Buscando...</div>';
+        
+        let totalResultados = 0;
+        const resultadosDiv = document.createElement('div');
+        resultadosDiv.style.width = '100%';
+
+        for (const nomeArquivo of arquivosPDF) {
+            try {
+                const pdf = await pdfjsLib.getDocument(nomeArquivo).promise;
+                
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const pagina = await pdf.getPage(i);
+                    const conteudoTexto = await pagina.getTextContent();
+                    const textoPagina = conteudoTexto.items.map(item => item.str).join(' ').toLowerCase();
+
+                    if (textoPagina.includes(termoBusca)) {
+                        totalResultados++;
+                        let preview = conteudoTexto.items.slice(0, 8).map(item => item.str).join(' ').trim();
+                        if (!preview || preview.length < 5) preview = `Música na página ${i}`;
+                        if (preview.length > 80) preview = preview.substring(0, 80) + '...';
+
+                        const divItem = document.createElement('div');
+                        divItem.className = 'result-item';
+                        divItem.innerHTML = `
+                            <div class="result-title">🎵 ${escapeHtml(preview)}</div>
+                            <div class="result-meta">📄 ${nomeArquivo.split('/').pop()} | 📖 Página ${i}</div>
+                        `;
+                        divItem.onclick = () => exibirCifra(nomeArquivo, i, preview);
+                        resultadosDiv.appendChild(divItem);
+                    }
+                }
+            } catch (erro) {
+                console.warn(`Arquivo ${nomeArquivo} não localizado:`, erro);
+            }
+        }
+
+        if (totalResultados === 0) {
+            resultsContainer.innerHTML = `
+                <h3>📋 Resultados da busca</h3>
+                <div class="empty-results">😕 Nenhuma música encontrada para "${escapeHtml(termoBusca)}"</div>
+            `;
+            statusMsg.className = 'status-message status-warning';
+            statusMsg.innerHTML = `🔍 Nenhum resultado encontrado para "${escapeHtml(termoBusca)}".`;
+        } else {
+            resultsContainer.innerHTML = '<h3>📋 Resultados da busca</h3>';
+            resultsContainer.appendChild(resultadosDiv);
+            statusMsg.className = 'status-message status-success';
+            statusMsg.innerHTML = `✅ Busca finalizada! Encontradas ${totalResultados} ocorrência(s).`;
+        }
+    }
+
+    function exibirCifra(arquivoPdf, numPagina, titulo) {
+        playingTitle.innerHTML = `🎸 ${escapeHtml(titulo.substring(0, 50))}...`;
+        statusMsg.className = 'status-message status-info';
+        statusMsg.innerHTML = `📄 Carregando página ${numPagina}...`;
+        pdfFrame.src = `${arquivoPdf}#page=${numPagina}`;
+        setTimeout(() => {
+            statusMsg.className = 'status-message status-success';
+            statusMsg.innerHTML = `✅ Cifra carregada - Página ${numPagina}`;
+        }, 1000);
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
+    }
+</script>
+</body>
+</html>
